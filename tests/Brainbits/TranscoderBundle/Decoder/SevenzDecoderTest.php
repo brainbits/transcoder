@@ -45,10 +45,10 @@ class SevenzDecoderTest extends TestCase
     {
         $rc = null;
         $out = null;
-        exec('which -s 7z', $out, $rc);
+        exec('7z', $out, $rc);
 
         if ($rc) {
-            $this->markTestSkipped('No 7z found on system');
+            $this->markTestSkipped('7z not found on system, skipping');
         }
     }
 
