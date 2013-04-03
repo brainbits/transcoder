@@ -1,0 +1,26 @@
+{
+    "name": "brainbits/transcoder",
+    "description": "Library for encoding, decoding transcoding data.",
+    "keywords": ["encoder", "decoder"],
+    "homepage": "http://brainbits.net",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gregor Welters",
+            "email": "gwelters@brainbits.net"
+        },
+        {
+            "name": "Phillip Look",
+            "email": "plook@brainbits.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "beberlei/assert": "v1.2",
+        "symfony/http-kernel": ">=2.1.0"
+    },
+    "autoload": {
+        "psr-0": { "Brainbits": "src/" }
+    },
+    "minimum-stability": "stable"
+}

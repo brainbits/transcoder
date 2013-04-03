@@ -1,0 +1,17 @@
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         syntaxCheck="true">
+    <testsuite name="brainbits">
+        <directory>Brainbits/</directory>
+    </testsuite>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src/Brainbits/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
