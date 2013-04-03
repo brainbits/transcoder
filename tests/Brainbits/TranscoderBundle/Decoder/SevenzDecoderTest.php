@@ -31,12 +31,25 @@ class SevenzDecoderTest extends TestCase
 
     public function testDecode()
     {
+        $this->check7z();
+
         $testString    = 'a string to be decompressed';
         $encodedString = $this->encode($testString);
 
         $result = $this->decoder->decode($encodedString);
 
         $this->assertSame($testString, $result);
+    }
+
+    private function check7z()
+    {
+        $rc = null;
+        $out = null;
+        exec('which -s 7z', $out, $rc);
+
+        if ($rc) {
+            $this->markTestSkipped('No 7z found on system');
+        }
     }
 
     private function encode($data)

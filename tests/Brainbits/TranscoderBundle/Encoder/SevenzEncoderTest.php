@@ -31,6 +31,8 @@ class SevenzEncoderTest extends TestCase
 
     public function testEncode()
     {
+        $this->check7z();
+
         $testString = 'a string to be compressed';
 
         $result = $this->encoder->encode($testString);
@@ -38,6 +40,17 @@ class SevenzEncoderTest extends TestCase
         $uncompressedResult = $this->decode($result);
 
         $this->assertSame($testString, $uncompressedResult);
+    }
+
+    private function check7z()
+    {
+        $rc = null;
+        $out = null;
+        exec('which -s 7z', $out, $rc);
+
+        if ($rc) {
+            $this->markTestSkipped('No 7z found on system');
+        }
     }
 
     private function decode($data)
