@@ -60,7 +60,6 @@ class SevenzEncoderTest extends TestCase
                 fclose($pipes[2]);
                 $return_value = proc_close($process);
             }
-
         }
 
         return $data;

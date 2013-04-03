@@ -54,7 +54,6 @@ class TranscoderTest extends TestCase
         $this->assertInstanceOf('Brainbits\Transcoder\Transcoder', $this->transcoder);
     }
 
-
     public function testTranscode()
     {
         $encodedValue    = 'encoded';
