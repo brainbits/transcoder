@@ -19,6 +19,8 @@ use Assert\Assertion;
  */
 class SevenzDecoder implements DecoderInterface
 {
+    const TYPE = '7z';
+
     /**
      * @inheritDoc
      */
@@ -54,6 +56,6 @@ class SevenzDecoder implements DecoderInterface
      */
     public function supports($type)
     {
-        return '7z' === $type;
+        return self::TYPE === $type;
     }
 }

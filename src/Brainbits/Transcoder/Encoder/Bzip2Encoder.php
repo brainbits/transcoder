@@ -22,9 +22,7 @@ class Bzip2Encoder implements EncoderInterface
     const TYPE = 'bzip2';
 
     /**
-     * @param string $data
-     *
-     * @return string
+     * @inheritDoc
      */
     public function encode($data)
     {
@@ -33,5 +31,13 @@ class Bzip2Encoder implements EncoderInterface
         Assertion::minLength($data, 1, 'bzcompress returned no data');
 
         return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supports($type)
+    {
+        return self::TYPE === $type;
     }
 }

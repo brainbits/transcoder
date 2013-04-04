@@ -25,7 +25,6 @@ class GzipDecoderTest extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
         $this->decoder = new GzipDecoder();
     }
 
@@ -37,5 +36,11 @@ class GzipDecoderTest extends TestCase
         $result = $this->decoder->decode($encodedString);
 
         $this->assertSame($testString, $result);
+    }
+
+    public function testSupports()
+    {
+        $this->assertTrue($this->decoder->supports('gzip'));
+        $this->assertFalse($this->decoder->supports('foo'));
     }
 }

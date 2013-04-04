@@ -25,7 +25,6 @@ class SevenzEncoderTest extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
         $this->encoder = new SevenzEncoder();
     }
 
@@ -40,6 +39,12 @@ class SevenzEncoderTest extends TestCase
         $uncompressedResult = $this->decode($result);
 
         $this->assertSame($testString, $uncompressedResult);
+    }
+
+    public function testSupports()
+    {
+        $this->assertTrue($this->encoder->supports('7z'));
+        $this->assertFalse($this->encoder->supports('foo'));
     }
 
     private function check7z()

@@ -22,9 +22,7 @@ class GzipEncoder implements EncoderInterface
     const TYPE = 'gzip';
 
     /**
-     * @param string $data
-     *
-     * @return string
+     * @inheritDoc
      */
     public function encode($data)
     {
@@ -32,5 +30,13 @@ class GzipEncoder implements EncoderInterface
         Assertion::minLength($data, 1, 'gzencode returned no data');
 
         return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supports($type)
+    {
+        return self::TYPE === $type;
     }
 }

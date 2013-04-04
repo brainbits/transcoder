@@ -20,12 +20,18 @@ class NullEncoder implements EncoderInterface
     const TYPE = 'null';
 
     /**
-     * @param string $data
-     *
-     * @return string
+     * @inheritDoc
      */
     public function encode($data)
     {
         return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supports($type)
+    {
+        return null === $type || self::TYPE === $type;
     }
 }

@@ -25,7 +25,6 @@ class NullDecoderTest extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
         $this->decoder = new NullDecoder();
     }
 
@@ -36,5 +35,12 @@ class NullDecoderTest extends TestCase
         $result = $this->decoder->decode($testString);
 
         $this->assertSame($testString, $result);
+    }
+
+    public function testSupports()
+    {
+        $this->assertTrue($this->decoder->supports('null'));
+        $this->assertTrue($this->decoder->supports(null));
+        $this->assertFalse($this->decoder->supports('foo'));
     }
 }

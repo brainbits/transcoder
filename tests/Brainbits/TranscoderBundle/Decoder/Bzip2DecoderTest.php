@@ -25,7 +25,6 @@ class DecoderBzip2Test extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
         $this->decoder = new Bzip2Decoder();
     }
 
@@ -37,5 +36,11 @@ class DecoderBzip2Test extends TestCase
         $result = $this->decoder->decode($encodedString);
 
         $this->assertSame($testString, $result);
+    }
+
+    public function testSupports()
+    {
+        $this->assertTrue($this->decoder->supports('bzip2'));
+        $this->assertFalse($this->decoder->supports('foo'));
     }
 }

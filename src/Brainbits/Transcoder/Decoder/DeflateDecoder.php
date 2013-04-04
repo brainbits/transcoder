@@ -19,10 +19,10 @@ use Assert\Assertion;
  */
 class DeflateDecoder implements DecoderInterface
 {
+    const TYPE = 'deflate';
+
     /**
-     * @param string $data
-     *
-     * @return string
+     * @inheritDoc
      */
     public function decode($data)
     {
@@ -36,6 +36,6 @@ class DeflateDecoder implements DecoderInterface
      */
     public function supports($type)
     {
-        return 'deflate' === $type;
+        return self::TYPE === $type;
     }
 }

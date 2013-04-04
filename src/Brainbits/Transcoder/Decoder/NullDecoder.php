@@ -19,10 +19,10 @@ use Assert\Assertion;
  */
 class NullDecoder implements DecoderInterface
 {
+    const TYPE = 'null';
+
     /**
-     * @param string $data
-     *
-     * @return string
+     * @inheritDoc
      */
     public function decode($data)
     {
@@ -34,6 +34,6 @@ class NullDecoder implements DecoderInterface
      */
     public function supports($type)
     {
-        return 'null' === $type;
+        return null === $type || self::TYPE === $type;
     }
 }

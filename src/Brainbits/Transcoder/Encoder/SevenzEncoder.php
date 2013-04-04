@@ -22,9 +22,7 @@ class SevenzEncoder implements EncoderInterface
     const TYPE = '7z';
 
     /**
-     * @param string $data
-     *
-     * @return string
+     * @inheritDoc
      */
     public function encode($data)
     {
@@ -49,5 +47,13 @@ class SevenzEncoder implements EncoderInterface
         Assertion::minLength($data, 1, '7z returned no data');
 
         return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supports($type)
+    {
+        return self::TYPE === $type;
     }
 }

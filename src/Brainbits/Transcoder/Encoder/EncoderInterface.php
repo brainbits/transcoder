@@ -18,9 +18,18 @@ namespace Brainbits\Transcoder\Encoder;
 interface EncoderInterface
 {
     /**
-     * @param string $data
+     * Encode data
      *
+     * @param string $data
      * @return string
      */
     public function encode($data);
+
+    /**
+     * Returns true if type is supported, false otherwise
+     *
+     * @param string $type
+     * @return boolean
+     */
+    public function supports($type);
 }

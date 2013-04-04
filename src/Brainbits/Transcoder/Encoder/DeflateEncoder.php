@@ -22,14 +22,20 @@ class DeflateEncoder implements EncoderInterface
     const TYPE = 'deflate';
 
     /**
-     * @param string $data
-     *
-     * @return string
+     * @inheritDoc
      */
     public function encode($data)
     {
         $data = gzdeflate($data, 9);
         Assertion::minLength($data, 1, 'gzdeflate returned no data');
         return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supports($type)
+    {
+        return self::TYPE === $type;
     }
 }

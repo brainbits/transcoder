@@ -19,10 +19,10 @@ use Assert\Assertion;
  */
 class GzipDecoder implements DecoderInterface
 {
+    const TYPE = 'gzip';
+
     /**
-     * @param string $data
-     *
-     * @return string
+     * @inheritDoc
      */
     public function decode($data)
     {
@@ -36,6 +36,6 @@ class GzipDecoder implements DecoderInterface
      */
     public function supports($type)
     {
-        return 'gzip' === $type;
+        return self::TYPE === $type;
     }
 }

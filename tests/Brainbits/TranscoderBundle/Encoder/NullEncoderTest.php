@@ -25,7 +25,6 @@ class NullEncoderTest extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
         $this->encoder = new NullEncoder();
     }
 
@@ -38,4 +37,10 @@ class NullEncoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
+    public function testSupports()
+    {
+        $this->assertTrue($this->encoder->supports('null'));
+        $this->assertTrue($this->encoder->supports(null));
+        $this->assertFalse($this->encoder->supports('foo'));
+    }
 }

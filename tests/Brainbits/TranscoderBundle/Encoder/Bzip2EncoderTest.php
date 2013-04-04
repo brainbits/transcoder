@@ -25,7 +25,6 @@ class Bzip2EncoderTest extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
         $this->encoder = new Bzip2Encoder();
     }
 
@@ -40,4 +39,9 @@ class Bzip2EncoderTest extends TestCase
         $this->assertSame($testString, $uncompressedResult);
     }
 
+    public function testSupports()
+    {
+        $this->assertTrue($this->encoder->supports('bzip2'));
+        $this->assertFalse($this->encoder->supports('foo'));
+    }
 }

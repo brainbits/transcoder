@@ -25,7 +25,6 @@ class GzipEncoderTest extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
         $this->encoder = new GzipEncoder();
     }
 
@@ -40,4 +39,9 @@ class GzipEncoderTest extends TestCase
         $this->assertSame($testString, $uncompressedResult);
     }
 
+    public function testSupports()
+    {
+        $this->assertTrue($this->encoder->supports('gzip'));
+        $this->assertFalse($this->encoder->supports('foo'));
+    }
 }

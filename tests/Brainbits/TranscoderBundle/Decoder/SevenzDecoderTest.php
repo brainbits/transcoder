@@ -25,7 +25,6 @@ class SevenzDecoderTest extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
         $this->decoder = new SevenzDecoder();
     }
 
@@ -39,6 +38,12 @@ class SevenzDecoderTest extends TestCase
         $result = $this->decoder->decode($encodedString);
 
         $this->assertSame($testString, $result);
+    }
+
+    public function testSupports()
+    {
+        $this->assertTrue($this->decoder->supports('7z'));
+        $this->assertFalse($this->decoder->supports('foo'));
     }
 
     private function check7z()
