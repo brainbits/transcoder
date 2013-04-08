@@ -30,7 +30,7 @@ class SevenzEncoderTest extends TestCase
 
     public function testEncode()
     {
-        $this->check7z();
+        $this->ensureExecutableAvailable();
 
         $testString = 'a string to be compressed';
 
@@ -47,11 +47,11 @@ class SevenzEncoderTest extends TestCase
         $this->assertFalse($this->encoder->supports('foo'));
     }
 
-    private function check7z()
+    private function ensureExecutableAvailable()
     {
         $rc = null;
         $out = null;
-        exec('7z', $out, $rc);
+        exec($this->encoder->getExecutable(), $out, $rc);
 
         if ($rc) {
             $this->markTestSkipped('7z not found on system, skipping');
@@ -61,7 +61,7 @@ class SevenzEncoderTest extends TestCase
     private function decode($data)
     {
         $process = proc_open(
-            '7z e -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -si -so',
+            $this->encoder->getExecutable() . ' e -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -si -so',
             [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ],
             $pipes,
             null,

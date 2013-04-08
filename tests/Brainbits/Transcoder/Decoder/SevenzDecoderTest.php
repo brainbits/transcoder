@@ -30,7 +30,7 @@ class SevenzDecoderTest extends TestCase
 
     public function testDecode()
     {
-        $this->check7z();
+        $this->ensureExecutableAvailable();
 
         $testString    = 'a string to be decompressed';
         $encodedString = $this->encode($testString);
@@ -46,11 +46,11 @@ class SevenzDecoderTest extends TestCase
         $this->assertFalse($this->decoder->supports('foo'));
     }
 
-    private function check7z()
+    private function ensureExecutableAvailable()
     {
         $rc = null;
         $out = null;
-        exec('7z', $out, $rc);
+        exec($this->decoder->getExecutable(), $out, $rc);
 
         if ($rc) {
             $this->markTestSkipped('7z not found on system, skipping');
@@ -60,7 +60,7 @@ class SevenzDecoderTest extends TestCase
     private function encode($data)
     {
         $process = proc_open(
-            '7za a -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on -si -so',
+            $this->decoder->getExecutable() . ' a -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on -si -so',
             [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ],
             $pipes,
             null,
