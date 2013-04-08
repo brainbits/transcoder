@@ -10,7 +10,7 @@
 
 namespace Brainbits\Transcoder\Encoder;
 
-use Assert\Assertion;
+use Assert\Assertion as Assert;
 
 /**
  * 7z encoder
@@ -22,17 +22,35 @@ class SevenzEncoder implements EncoderInterface
     const TYPE = '7z';
 
     /**
+     * @var string
+     */
+    private $executable;
+
+    public function __construct($executable = '7z')
+    {
+        $this->executable = $executable;
+    }
+
+    /**
+     * Return executable
+     *
+     * @return string
+     */
+    public function getExecutable()
+    {
+        return $this->executable;
+    }
+
+    /**
      * @inheritDoc
      */
     public function encode($data)
     {
-        $process = proc_open(
-            '7za a -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on -si -so',
-            [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ],
-            $pipes,
-            null,
-            null
-        );
+        $command = $this->executable . ' a -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on -si -so';
+        $process = proc_open($command, [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ], $pipes, null, null);
+
+        $exitCode = 0;
+        $errors = '';
 
         if (is_resource($process)) {
             fwrite($pipes[0], $data);
@@ -41,10 +59,10 @@ class SevenzEncoder implements EncoderInterface
             fclose($pipes[1]);
             $errors = stream_get_contents($pipes[2]);
             fclose($pipes[2]);
-            $return_value = proc_close($process);
+            $exitCode = proc_close($process);
         }
 
-        Assertion::minLength($data, 1, '7z returned no data');
+        Assert::minLength($data, 1, '7z encoder returned no data, exit code ' . $exitCode . ', error output ' . $errors);
 
         return $data;
     }
