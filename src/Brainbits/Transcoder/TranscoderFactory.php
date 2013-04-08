@@ -10,8 +10,8 @@
 
 namespace Brainbits\Transcoder;
 
-use Brainbits\Transcoder\Decoder\DecoderResolver;
-use Brainbits\Transcoder\Encoder\EncoderResolver;
+use Brainbits\Transcoder\Decoder\DecoderResolverInterface;
+use Brainbits\Transcoder\Encoder\EncoderResolverInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
@@ -23,23 +23,23 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 class TranscoderFactory
 {
     /**
-     * @var DecoderResolver
+     * @var DecoderResolverInterface
      */
     private $decoderResolver;
 
     /**
-     * @var EncoderResolver
+     * @var EncoderResolverInterface
      */
     private $encoderResolver;
 
     /**
-     * @param DecoderResolver $decoderResolver
-     * @param EncoderResolver $encoderResolver
+     * @param DecoderResolverInterface $decoderResolver
+     * @param EncoderResolverInterface $encoderResolver
      * @param LoggerInterface $logger
      */
     public function __construct(
-        DecoderResolver $decoderResolver,
-        EncoderResolver $encoderResolver,
+        DecoderResolverInterface $decoderResolver,
+        EncoderResolverInterface $encoderResolver,
         LoggerInterface $logger
     ) {
         $this->decoderResolver = $decoderResolver;

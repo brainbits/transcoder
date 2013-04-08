@@ -10,13 +10,6 @@
 
 namespace Brainbits\Transcoder\Decoder;
 
-use Brainbits\Transcoder\Decoder\Decoder;
-use Brainbits\Transcoder\Decoder\DecoderNull;
-use Brainbits\Transcoder\Decoder\DecoderDeflate;
-use Brainbits\Transcoder\Decoder\DecoderBzip2;
-use Brainbits\Transcoder\Decoder\DecoderGzip;
-use Brainbits\Transcoder\Decoder\Decoder7z;
-
 /**
  * Decoder resolver
  * Resolves decoders based on supported type
@@ -24,7 +17,7 @@ use Brainbits\Transcoder\Decoder\Decoder7z;
  * @author Stephan Wentz <swentz@brainbits.net>
  * @author Gregor Welters <gwelters@brainbits.net>
  */
-class DecoderResolver
+class DecoderResolver implements DecoderResolverInterface
 {
     /**
      * @var DecoderInterface[]
@@ -53,8 +46,7 @@ class DecoderResolver
     }
 
     /**
-     * @param string|null $type
-     * @return DecoderInterface
+     * @inheritDoc
      * @throws \RuntimeException
      */
     public function resolve($type)
