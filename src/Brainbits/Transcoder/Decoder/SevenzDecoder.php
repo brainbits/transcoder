@@ -46,7 +46,7 @@ class SevenzDecoder implements DecoderInterface
      */
     public function decode($data)
     {
-        $command = $this->executable . ' e -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -si -so';
+        $command = escapeshellarg($this->executable) . ' e -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -si -so';
         $process = proc_open($command, [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ], $pipes, null, null);
 
         if (strlen($data)) {
