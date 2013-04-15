@@ -46,7 +46,7 @@ class SevenzEncoder implements EncoderInterface
      */
     public function encode($data)
     {
-        $command = $this->executable . ' a -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on -si -so';
+        $command = escapeshellarg($this->executable) . ' a -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on -si -so';
         $process = proc_open($command, [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ], $pipes, null, null);
 
         $exitCode = 0;
