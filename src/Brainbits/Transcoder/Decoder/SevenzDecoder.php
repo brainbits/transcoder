@@ -26,6 +26,9 @@ class SevenzDecoder implements DecoderInterface
      */
     private $executable;
 
+    /**
+     * @param string $executable
+     */
     public function __construct($executable = '7z')
     {
         $this->executable = $executable;
@@ -46,6 +49,7 @@ class SevenzDecoder implements DecoderInterface
      */
     public function decode($data)
     {
+
         $command = escapeshellarg($this->executable) . ' e -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -si -so';
         $process = proc_open($command, [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ], $pipes, null, null);
 
