@@ -11,6 +11,8 @@
 namespace Brainbits\Transcoder\Decoder;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use Phlexible\Stdlib\Test\TestHelper;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @covers \Brainbits\Transcoder\Decoder\DecoderInterface
@@ -25,7 +27,8 @@ class SevenzDecoderTest extends TestCase
 
     protected function setUp()
     {
-        $this->decoder = new SevenzDecoder();
+        $processBuilder = new ProcessBuilder(['7z']);
+        $this->decoder = new SevenzDecoder($processBuilder);
     }
 
     public function testDecode()

@@ -11,6 +11,7 @@
 namespace Brainbits\Transcoder\Encoder;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @covers \Brainbits\Transcoder\Encoder\EncoderInterface
@@ -25,7 +26,8 @@ class SevenzEncoderTest extends TestCase
 
     protected function setUp()
     {
-        $this->encoder = new SevenzEncoder();
+        $processBuilder = new ProcessBuilder(['7z']);
+        $this->encoder = new SevenzEncoder($processBuilder);
     }
 
     public function testEncode()

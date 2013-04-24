@@ -11,6 +11,8 @@
 namespace Brainbits\Transcoder\Decoder;
 
 use Assert\Assertion as Assert;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * 7z decoder
@@ -22,16 +24,16 @@ class SevenzDecoder implements DecoderInterface
     const TYPE = '7z';
 
     /**
-     * @var string
+     * @var ProcessBuilder
      */
-    private $executable;
+    private $processBuilder;
 
     /**
-     * @param string $executable
+     * @param ProcessBuilder $processbuilder
      */
-    public function __construct($executable = '7z')
+    public function __construct(ProcessBuilder $processbuilder)
     {
-        $this->executable = $executable;
+        $this->processBuilder = $processbuilder;
     }
 
     /**
@@ -41,7 +43,9 @@ class SevenzDecoder implements DecoderInterface
      */
     public function getExecutable()
     {
-        return $this->executable;
+        $commandline = $this->processBuilder->getProcess()->getCommandLine();
+        $parts = explode(' ', $commandline);
+        return $parts[0];
     }
 
     /**
@@ -49,25 +53,21 @@ class SevenzDecoder implements DecoderInterface
      */
     public function decode($data)
     {
+        $processBuilder = clone $this->processBuilder;
 
-        $command = escapeshellarg($this->executable) . ' e -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -si -so';
-        $process = proc_open($command, [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ], $pipes, null, null);
+        $args=['e', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m'];
+        foreach ($args as $arg) {
+            $processBuilder->add($arg);
+        }
+        $processBuilder->setInput($data);
 
-        if (strlen($data)) {
-            $exitCode = 0;
-            $errors = '';
+        $process = $processBuilder->getProcess();
+        $process->run();
 
-            if (is_resource($process)) {
-                fwrite($pipes[0], $data);
-                fclose($pipes[0]);
-                $data = stream_get_contents($pipes[1]);
-                fclose($pipes[1]);
-                $errors = stream_get_contents($pipes[2]);
-                fclose($pipes[2]);
-                $exitCode = proc_close($process);
-            }
-
-            Assert::minLength($data, 1, '7z decoder returned no data, exit code ' . $exitCode . ', error output ' . $errors);
+        if ($process->isSuccessful()) {
+            $data = $process->getOutput();
+        } else {
+            throw new \Exception('7z failure:'.$process->getOutput().$process->getErrorOutput());
         }
 
         return $data;
