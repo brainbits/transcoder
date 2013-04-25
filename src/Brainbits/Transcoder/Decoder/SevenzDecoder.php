@@ -24,16 +24,41 @@ class SevenzDecoder implements DecoderInterface
     const TYPE = '7z';
 
     /**
-     * @var ProcessBuilder
+     * @var string
      */
-    private $processBuilder;
+    private $executable;
 
     /**
-     * @param ProcessBuilder $processbuilder
+     * @var string
      */
-    public function __construct(ProcessBuilder $processbuilder)
+    private $data;
+
+    /**
+     * @param $executable string
+     */
+    public function __construct($executable = '7z')
     {
-        $this->processBuilder = $processbuilder;
+        $this->executable = $executable;
+    }
+
+    /**
+     * @param $data
+     */
+    public function setInput($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return \Symfony\Component\Process\Process
+     */
+    public function getProcess()
+    {
+        $processBuilder = new ProcessBuilder(
+            [$this->executable, 'e', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m']
+        );
+        $processBuilder->setInput($this->data);
+        return $processBuilder->getProcess();
     }
 
     /**
@@ -43,9 +68,7 @@ class SevenzDecoder implements DecoderInterface
      */
     public function getExecutable()
     {
-        $commandline = $this->processBuilder->getProcess()->getCommandLine();
-        $parts = explode(' ', $commandline);
-        return $parts[0];
+        return $this->executable;
     }
 
     /**
@@ -53,21 +76,15 @@ class SevenzDecoder implements DecoderInterface
      */
     public function decode($data)
     {
-        $processBuilder = clone $this->processBuilder;
+        $this->setInput($data);
 
-        $args=['e', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m'];
-        foreach ($args as $arg) {
-            $processBuilder->add($arg);
-        }
-        $processBuilder->setInput($data);
-
-        $process = $processBuilder->getProcess();
+        $process = $this->getProcess();
         $process->run();
 
         if ($process->isSuccessful()) {
             $data = $process->getOutput();
         } else {
-            throw new \Exception('7z failure:'.$process->getOutput().$process->getErrorOutput());
+            throw new \Exception('7z failure: '.$process->getOutput().$process->getErrorOutput());
         }
 
         return $data;
