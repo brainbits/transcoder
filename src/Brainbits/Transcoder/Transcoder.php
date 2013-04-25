@@ -41,7 +41,7 @@ class Transcoder
     }
 
     /**
-     * @param $data
+     * @param $data string
      * @return string
      */
     public function transcode($data)
