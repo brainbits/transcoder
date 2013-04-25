@@ -11,6 +11,7 @@
 namespace Brainbits\Transcoder\Encoder;
 
 use Assert\Assertion as Assert;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * 7z encoder
@@ -26,9 +27,28 @@ class SevenzEncoder implements EncoderInterface
      */
     private $executable;
 
+    /**
+     * @var string
+     */
+    private $data;
+
+    /**
+     * @param $executable string
+     */
     public function __construct($executable = '7z')
     {
         $this->executable = $executable;
+    }
+
+    /**
+     * @return \Symfony\Component\Process\Process
+     */
+    public function getProcess()
+    {
+        $processBuilder = new ProcessBuilder([$this->executable, 'a', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m']);
+        $processBuilder->setInput($this->data);
+
+        return $processBuilder->getProcess();
     }
 
     /**
@@ -41,28 +61,22 @@ class SevenzEncoder implements EncoderInterface
         return $this->executable;
     }
 
+
     /**
      * @inheritDoc
      */
     public function encode($data)
     {
-        $command = escapeshellarg($this->executable) . ' a -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on -si -so';
-        $process = proc_open($command, [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ], $pipes, null, null);
+        $this->data = $data;
 
-        $exitCode = 0;
-        $errors = '';
+        $process = $this->getProcess();
+        $process->run();
 
-        if (is_resource($process)) {
-            fwrite($pipes[0], $data);
-            fclose($pipes[0]);
-            $data = stream_get_contents($pipes[1]);
-            fclose($pipes[1]);
-            $errors = stream_get_contents($pipes[2]);
-            fclose($pipes[2]);
-            $exitCode = proc_close($process);
+        if ($process->isSuccessful()) {
+            $data = $process->getOutput();
+        } else {
+            throw new \Exception('7z failure: '.$process->getOutput().$process->getErrorOutput());
         }
-
-        Assert::minLength($data, 1, '7z encoder returned no data, exit code ' . $exitCode . ', error output ' . $errors);
 
         return $data;
     }

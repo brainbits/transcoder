@@ -55,7 +55,7 @@ class TranscoderFactory
      */
     public function createTranscoder($inputType = null, $outputType = null)
     {
-        $this->logger->debug('Creating transcoder with input type' . $inputType . ' and output type ' . $outputType);
+        $this->logger->debug('Creating transcoder with input type ' . $inputType . ' and output type ' . $outputType);
 
         if ($inputType === $outputType) {
             $inputType = $outputType = null;
