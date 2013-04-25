@@ -41,14 +41,6 @@ class SevenzEncoder implements EncoderInterface
     }
 
     /**
-     * @param $data string
-     */
-    public function setInput($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
      * @return \Symfony\Component\Process\Process
      */
     public function getProcess()
@@ -75,7 +67,7 @@ class SevenzEncoder implements EncoderInterface
      */
     public function encode($data)
     {
-        $this->setInput($data);
+        $this->data = $data;
 
         $process = $this->getProcess();
         $process->run();

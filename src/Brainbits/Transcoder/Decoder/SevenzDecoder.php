@@ -42,14 +42,6 @@ class SevenzDecoder implements DecoderInterface
     }
 
     /**
-     * @param $data
-     */
-    public function setInput($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
      * @return \Symfony\Component\Process\Process
      */
     public function getProcess()
@@ -76,7 +68,7 @@ class SevenzDecoder implements DecoderInterface
      */
     public function decode($data)
     {
-        $this->setInput($data);
+        $this->data = $data;
 
         $process = $this->getProcess();
         $process->run();
