@@ -11,6 +11,8 @@
 namespace Brainbits\Transcoder\Decoder;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use Phlexible\Stdlib\Test\TestHelper;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @covers \Brainbits\Transcoder\Decoder\DecoderInterface
@@ -25,19 +27,8 @@ class SevenzDecoderTest extends TestCase
 
     protected function setUp()
     {
-        $this->decoder = new SevenzDecoder();
-    }
-
-    public function testDecode()
-    {
-        $this->ensureExecutableAvailable();
-
-        $testString    = 'a string to be decompressed';
-        $encodedString = $this->encode($testString);
-
-        $result = $this->decoder->decode($encodedString);
-
-        $this->assertSame($testString, $result);
+        $processBuilder = new ProcessBuilder(['7z']);
+        $this->decoder = new SevenzDecoder($processBuilder);
     }
 
     public function testSupports()
@@ -57,26 +48,4 @@ class SevenzDecoderTest extends TestCase
         }
     }
 
-    private function encode($data)
-    {
-        $process = proc_open(
-            $this->decoder->getExecutable() . ' a -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on -si -so',
-            [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ],
-            $pipes,
-            null,
-            null
-        );
-
-        if (is_resource($process)) {
-            fwrite($pipes[0], $data);
-            fclose($pipes[0]);
-            $data = stream_get_contents($pipes[1]);
-            fclose($pipes[1]);
-            $errors = stream_get_contents($pipes[2]);
-            fclose($pipes[2]);
-            $return_value = proc_close($process);
-        }
-
-        return $data;
-    }
 }

@@ -11,6 +11,7 @@
 namespace Brainbits\Transcoder\Encoder;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * @covers \Brainbits\Transcoder\Encoder\EncoderInterface
@@ -25,20 +26,8 @@ class SevenzEncoderTest extends TestCase
 
     protected function setUp()
     {
-        $this->encoder = new SevenzEncoder();
-    }
-
-    public function testEncode()
-    {
-        $this->ensureExecutableAvailable();
-
-        $testString = 'a string to be compressed';
-
-        $result = $this->encoder->encode($testString);
-
-        $uncompressedResult = $this->decode($result);
-
-        $this->assertSame($testString, $uncompressedResult);
+        $processBuilder = new ProcessBuilder(['7z']);
+        $this->encoder = new SevenzEncoder($processBuilder);
     }
 
     public function testSupports()
@@ -58,28 +47,4 @@ class SevenzEncoderTest extends TestCase
         }
     }
 
-    private function decode($data)
-    {
-        $process = proc_open(
-            $this->encoder->getExecutable() . ' e -an -txz -m0=lzma2 -mx=9 -mfb=64 -md=32m -si -so',
-            [ ['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w'] ],
-            $pipes,
-            null,
-            null
-        );
-
-        if (strlen($data)) {
-            if (is_resource($process)) {
-                fwrite($pipes[0], $data);
-                fclose($pipes[0]);
-                $data = stream_get_contents($pipes[1]);
-                fclose($pipes[1]);
-                $errors = stream_get_contents($pipes[2]);
-                fclose($pipes[2]);
-                $return_value = proc_close($process);
-            }
-        }
-
-        return $data;
-    }
 }

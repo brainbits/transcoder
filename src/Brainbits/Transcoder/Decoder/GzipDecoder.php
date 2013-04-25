@@ -26,7 +26,7 @@ class GzipDecoder implements DecoderInterface
      */
     public function decode($data)
     {
-        $data = gzuncompress($data);
+        $data = gzdecode($data);
         Assertion::minLength($data, 1, 'gzdecode returned no data');
         return $data;
     }

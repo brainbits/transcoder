@@ -31,7 +31,7 @@ class GzipDecoderTest extends TestCase
     public function testDecode()
     {
         $testString    = 'a string to be decompressed';
-        $encodedString = gzcompress($testString);
+        $encodedString = gzencode($testString);
 
         $result = $this->decoder->decode($encodedString);
 
