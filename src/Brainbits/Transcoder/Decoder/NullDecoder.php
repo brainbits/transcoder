@@ -10,8 +10,6 @@
 
 namespace Brainbits\Transcoder\Decoder;
 
-use Assert\Assertion;
-
 /**
  * Null decoder
  *

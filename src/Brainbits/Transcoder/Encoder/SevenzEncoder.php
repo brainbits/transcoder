@@ -10,7 +10,6 @@
 
 namespace Brainbits\Transcoder\Encoder;
 
-use Assert\Assertion as Assert;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**

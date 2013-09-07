@@ -10,8 +10,6 @@
 
 namespace Brainbits\Transcoder\Decoder;
 
-use Assert\Assertion as Assert;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
