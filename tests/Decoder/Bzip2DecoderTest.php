@@ -43,6 +43,19 @@ class DecoderBzip2Test extends TestCase
     /**
      * @expectedException \Brainbits\Transcoder\Exception\DecodeFailedException
      */
+    public function testDecodeThrowsErrorOnEmptyResult()
+    {
+        $testString    = '';
+        $encodedString = bzcompress($testString);
+
+        $result = $this->decoder->decode($encodedString);
+
+        $this->assertSame($testString, $result);
+    }
+
+    /**
+     * @expectedException \Brainbits\Transcoder\Exception\DecodeFailedException
+     */
     public function testDecodeError()
     {
         $testString = 'invalid encoded data';

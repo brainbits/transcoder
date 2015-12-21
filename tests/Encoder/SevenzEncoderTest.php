@@ -21,32 +21,46 @@ use Symfony\Component\Process\ProcessBuilder;
  */
 class SevenzEncoderTest extends TestCase
 {
-    /**
-      * @var SevenzEncoder
-      */
-    private $encoder;
-
-    protected function setUp()
+    public function testEmptyConstructor()
     {
-        $processBuilder = new ProcessBuilder(['7z']);
-        $this->encoder = new SevenzEncoder($processBuilder);
+        $encoder = new SevenzEncoder();
+
+        $this->assertSame('7z', $encoder->getExecutable());
+    }
+
+    public function testExecutable()
+    {
+        $encoder = new SevenzEncoder('foo');
+
+        $this->assertSame('foo', $encoder->getExecutable());
     }
 
     public function testSupports()
     {
-        $this->assertTrue($this->encoder->supports('7z'));
-        $this->assertFalse($this->encoder->supports('foo'));
+        $encoder = new SevenzEncoder();
+
+        $this->assertTrue($encoder->supports('7z'));
+        $this->assertFalse($encoder->supports('foo'));
     }
 
-    private function ensureExecutableAvailable()
+    public function testEncode()
     {
         $rc = null;
         $out = null;
-        exec($this->encoder->getExecutable(), $out, $rc);
+        exec('7z', $out, $rc);
 
         if ($rc) {
             $this->markTestSkipped('7z not found on system, skipping');
+            return;
         }
-    }
 
+        $testString = 'a string to be compressed';
+
+        $decoder = new SevenzEncoder();
+
+        $result = $decoder->encode($testString);
+
+        $this->assertNotEmpty($result);
+        $this->assertNotSame($testString, $result);
+    }
 }

@@ -40,6 +40,19 @@ class GzipDecoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
+    /**
+     * @expectedException \Brainbits\Transcoder\Exception\DecodeFailedException
+     */
+    public function testDecodeThrowsErrorOnEmptyResult()
+    {
+        $testString    = '';
+        $encodedString = gzencode($testString);
+
+        $result = $this->decoder->decode($encodedString);
+
+        $this->assertSame($testString, $result);
+    }
+
     public function testSupports()
     {
         $this->assertTrue($this->decoder->supports('gzip'));

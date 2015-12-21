@@ -33,6 +33,10 @@ class Bzip2Decoder implements DecoderInterface
             throw new DecodeFailedException("bzdecompress failed.");
         }
 
+        if (!$data) {
+            throw new DecodeFailedException("bzdecompress returned no data.");
+        }
+
         return $data;
     }
 
