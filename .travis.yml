@@ -7,7 +7,7 @@ php:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y p7zip
+  - sudo apt-get install -y p7zip-full
 
 before_script: composer install 
 
