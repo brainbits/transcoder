@@ -5,6 +5,10 @@ php:
   - 5.6
   - 7
 
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y p7zip
+
 before_script: composer install 
 
 script: vendor/bin/phpunit -c tests
