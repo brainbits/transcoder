@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * This file is part of the brainbits transcoder package.
  *
- * (c) 2012-2013 brainbits GmbH (http://www.brainbits.net)
+ * (c) brainbits GmbH
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,11 +11,11 @@
 
 namespace Brainbits\Transcoder;
 
-use Brainbits\Transcoder\Decoder\Decoder;
-use Brainbits\Transcoder\Encoder\Encoder;
+use Brainbits\Transcoder\Decoder\DecoderInterface;
+use Brainbits\Transcoder\Encoder\EncoderInterface;
 use Brainbits\Transcoder\Tests\TranscoderTestHelper;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use PHPUnit_Framework_TestCase as TestCase;
+use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers Brainbits\Transcoder\Transcoder
@@ -25,12 +26,12 @@ class TranscoderTest extends TestCase
     use TranscoderTestHelper;
 
     /**
-     * @var MockObject|Decoder
+     * @var ObjectProphecy|DecoderInterface
      */
     private $decoderMock;
 
     /**
-     * @var MockObject|Encoder
+     * @var ObjectProphecy|EncoderInterface
      */
     private $encoderMock;
 
@@ -46,12 +47,12 @@ class TranscoderTest extends TestCase
         $this->decoderMock = $this->createDecoderMock();
         $this->encoderMock = $this->createEncoderMock();
 
-        $this->transcoder = new Transcoder($this->decoderMock, $this->encoderMock);
+        $this->transcoder = new Transcoder($this->decoderMock->reveal(), $this->encoderMock->reveal());
     }
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('Brainbits\Transcoder\Transcoder', $this->transcoder);
+        $this->assertInstanceOf(Transcoder::class, $this->transcoder);
     }
 
     public function testTranscode()
@@ -60,17 +61,9 @@ class TranscoderTest extends TestCase
         $decodedValue    = 'decoded';
         $transcodedValue = 'transcoded';
 
-        $this->decoderMock
-            ->expects($this->once())
-            ->method('decode')
-            ->with($encodedValue)
-            ->will($this->returnValue($decodedValue));
+        $this->decoderMock->decode($encodedValue)->willReturn($decodedValue);
 
-        $this->encoderMock
-            ->expects($this->once())
-            ->method('encode')
-            ->with($decodedValue)
-            ->will($this->returnValue($transcodedValue));
+        $this->encoderMock->encode($decodedValue)->willReturn($transcodedValue);
 
         $result = $this->transcoder->transcode($encodedValue);
 

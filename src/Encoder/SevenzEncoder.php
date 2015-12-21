@@ -1,23 +1,26 @@
 <?php
-/**
+
+/*
  * This file is part of the brainbits transcoder package.
  *
- * (c) 2012-2013 brainbits GmbH (http://www.brainbits.net)
+ * (c) brainbits GmbH
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Decoder;
+namespace Brainbits\Transcoder\Encoder;
 
+use Brainbits\Transcoder\Exception\EncodeFailedException;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
- * 7z decoder
+ * 7z encoder
  *
  * @author Gregor Welters <gwelters@brainbits.net>
  */
-class SevenzDecoder implements DecoderInterface
+class SevenzEncoder implements EncoderInterface
 {
     const TYPE = '7z';
 
@@ -40,18 +43,6 @@ class SevenzDecoder implements DecoderInterface
     }
 
     /**
-     * @return \Symfony\Component\Process\Process
-     */
-    public function getProcess()
-    {
-        $processBuilder = new ProcessBuilder(
-            [$this->executable, 'e', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m']
-        );
-        $processBuilder->setInput($this->data);
-        return $processBuilder->getProcess();
-    }
-
-    /**
      * Return executable
      *
      * @return string
@@ -61,10 +52,11 @@ class SevenzDecoder implements DecoderInterface
         return $this->executable;
     }
 
+
     /**
      * @inheritDoc
      */
-    public function decode($data)
+    public function encode($data)
     {
         $this->data = $data;
 
@@ -74,7 +66,7 @@ class SevenzDecoder implements DecoderInterface
         if ($process->isSuccessful()) {
             $data = $process->getOutput();
         } else {
-            throw new \Exception('7z failure: '.$process->getOutput().$process->getErrorOutput());
+            throw new EncodeFailedException('7z failure: '.$process->getOutput().$process->getErrorOutput());
         }
 
         return $data;
@@ -86,5 +78,16 @@ class SevenzDecoder implements DecoderInterface
     public function supports($type)
     {
         return self::TYPE === $type;
+    }
+
+    /**
+     * @return Process
+     */
+    private function getProcess()
+    {
+        $processBuilder = new ProcessBuilder([$this->executable, 'a', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m']);
+        $processBuilder->setInput($this->data);
+
+        return $processBuilder->getProcess();
     }
 }

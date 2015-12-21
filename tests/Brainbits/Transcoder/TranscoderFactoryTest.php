@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * This file is part of the brainbits transcoder package.
  *
- * (c) 2012-2013 brainbits GmbH (http://www.brainbits.net)
+ * (c) brainbits GmbH
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,14 +11,15 @@
 
 namespace Brainbits\Transcoder;
 
-use Brainbits\Transcoder\Decoder\DecoderFactory;
 use Brainbits\Transcoder\Decoder\DecoderInterface;
-use Brainbits\Transcoder\Encoder\EncoderFactory;
 use Brainbits\Transcoder\Encoder\EncoderInterface;
+use Brainbits\Transcoder\Encoder;
+use Brainbits\Transcoder\Decoder;
 use Brainbits\Transcoder\Tests\TranscoderTestHelper;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use PHPUnit_Framework_TestCase as TestCase;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers Brainbits\Transcoder\TranscoderFactory
@@ -33,22 +35,22 @@ class TranscoderFactoryTest extends TestCase
     private $logger;
 
     /**
-     * @var MockObject|EncoderInterface
+     * @var EncoderInterface|ObjectProphecy
      */
     public $encoderMock;
 
     /**
-     * @var MockObject|DecoderInterface
+     * @var DecoderInterface|ObjectProphecy
      */
     public $decoderMock;
 
     /**
-      * @var MockObject|EncoderResolver
+      * @var EncoderResolver|ObjectProphecy
       */
     private $encoderResolverMock;
 
     /**
-      * @var MockObject|DecoderResolver
+      * @var DecoderResolver|ObjectProphecy
       */
     private $decoderResolverMock;
 
@@ -63,16 +65,16 @@ class TranscoderFactoryTest extends TestCase
 
         $this->logger = $this->createLoggerMock();
 
+        $this->encoderMock = $this->createEncoderMock();
+        $this->decoderMock = $this->createDecoderMock();
+
         $this->encoderResolverMock = $this->createEncoderResolverMock();
         $this->decoderResolverMock = $this->createDecoderResolverMock();
 
-        $this->encoderMock = $this->encoderResolverMock->resolve('encode');
-        $this->decoderMock = $this->decoderResolverMock->resolve('decode');
-
         $this->transcoderFactory = new TranscoderFactory(
-            $this->decoderResolverMock,
-            $this->encoderResolverMock,
-            $this->logger
+            $this->decoderResolverMock->reveal(),
+            $this->encoderResolverMock->reveal(),
+            $this->logger->reveal()
         );
     }
 
@@ -80,10 +82,8 @@ class TranscoderFactoryTest extends TestCase
     {
         $expectedEncoder = 'encoder';
 
-        $this->encoderResolverMock
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($expectedEncoder);
+        $this->decoderResolverMock->resolve(null)->willReturn($this->decoderMock);
+        $this->encoderResolverMock->resolve($expectedEncoder)->willReturn($this->encoderMock);
 
         $this->transcoderFactory->createTranscoder(null, $expectedEncoder);
     }
@@ -92,10 +92,8 @@ class TranscoderFactoryTest extends TestCase
     {
         $expectedDecoder = 'decoder';
 
-        $this->decoderResolverMock
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($expectedDecoder);
+        $this->decoderResolverMock->resolve($expectedDecoder)->willReturn($this->decoderMock);
+        $this->encoderResolverMock->resolve(null)->willReturn($this->encoderMock);
 
         $this->transcoderFactory->createTranscoder($expectedDecoder, null);
     }
@@ -104,30 +102,19 @@ class TranscoderFactoryTest extends TestCase
     {
         $expectedEncoder = $expectedDecoder = 'same';
 
-        $this->encoderResolverMock
-            ->expects($this->once())
-            ->method('resolve')
-            ->with(null);
-
-        $this->decoderResolverMock
-            ->expects($this->once())
-            ->method('resolve')
-            ->with(null);
+        $this->encoderResolverMock->resolve(null)->willReturn($this->encoderMock);
+        $this->decoderResolverMock->resolve(null)->willReturn($this->decoderMock);
 
         $this->transcoderFactory->createTranscoder($expectedDecoder, $expectedEncoder);
     }
 
     public function testTranscoderWasCreatedWithCreatedFactories()
     {
-        $this->encoderMock
-            ->expects($this->once())
-            ->method('encode')
-            ->withAnyParameters();
+        $this->encoderResolverMock->resolve('encode')->willReturn($this->encoderMock);
+        $this->decoderResolverMock->resolve('decode')->willReturn($this->decoderMock);
 
-        $this->decoderMock
-            ->expects($this->once())
-            ->method('decode')
-            ->withAnyParameters();
+        $this->encoderMock->encode(Argument::any())->shouldBeCalled();
+        $this->decoderMock->decode(Argument::any())->shouldBeCalled();
 
         $transcoder = $this->transcoderFactory->createTranscoder('decode', 'encode');
 
@@ -135,11 +122,11 @@ class TranscoderFactoryTest extends TestCase
     }
 
     /**
-     * @return MockObject
+     * @return LoggerInterface|ObjectProphecy
      */
     private function createLoggerMock()
     {
-        return $this->getMockForAbstractClass('Symfony\Component\HttpKernel\Log\LoggerInterface');
+        return $this->prophesize(LoggerInterface::class);
     }
 
 }

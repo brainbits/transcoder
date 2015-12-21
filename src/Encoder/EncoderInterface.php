@@ -1,29 +1,30 @@
 <?php
-/**
+
+/*
  * This file is part of the brainbits transcoder package.
  *
- * (c) 2012-2013 brainbits GmbH (http://www.brainbits.net)
+ * (c) brainbits GmbH
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Decoder;
+namespace Brainbits\Transcoder\Encoder;
 
 /**
- * Decoder interface
+ * Encoder interface
  *
  * @author Gregor Welters <gwelters@brainbits.net>
  */
-interface DecoderInterface
+interface EncoderInterface
 {
     /**
-     * Decode data
+     * Encode data
      *
      * @param string $data
      * @return string
      */
-    public function decode($data);
+    public function encode($data);
 
     /**
      * Returns true if type is supported, false otherwise

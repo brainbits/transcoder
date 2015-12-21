@@ -1,33 +1,38 @@
 <?php
-/**
+
+/*
  * This file is part of the brainbits transcoder package.
  *
- * (c) 2012-2013 brainbits GmbH (http://www.brainbits.net)
+ * (c) brainbits GmbH
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Decoder;
+namespace Brainbits\Transcoder\Encoder;
 
-use Assert\Assertion;
+use Brainbits\Transcoder\Exception\EncodeFailedException;
 
 /**
- * Bzip2 decoder
+ * bzip2 encoder
  *
  * @author Gregor Welters <gwelters@brainbits.net>
  */
-class Bzip2Decoder implements DecoderInterface
+class Bzip2Encoder implements EncoderInterface
 {
     const TYPE = 'bzip2';
 
     /**
      * @inheritDoc
      */
-    public function decode($data)
+    public function encode($data)
     {
-        $data = bzdecompress($data);
-        Assertion::minLength($data, 1, 'bzdecompress returned no data');
+        $data = bzcompress($data, 9);
+
+        if (!$data) {
+            throw new EncodeFailedException("bzcompress returned no data.");
+        }
+
         return $data;
     }
 
