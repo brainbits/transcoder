@@ -1,17 +1,16 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="bootstrap.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          syntaxCheck="true">
     <testsuite name="brainbits">
-        <directory>Brainbits/</directory>
+        <directory>.</directory>
     </testsuite>
     <filter>
         <whitelist>
-            <directory suffix=".php">../src/Brainbits/</directory>
+            <directory suffix=".php">../src/</directory>
         </whitelist>
     </filter>
 </phpunit>
