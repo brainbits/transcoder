@@ -9,24 +9,25 @@
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Encoder;
+namespace Brainbits\Transcoder\Tests\Encoder;
 
+use Brainbits\Transcoder\Encoder\DeflateEncoder;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @covers \Brainbits\Transcoder\Encoder\EncoderInterface
- * @covers \Brainbits\Transcoder\Encoder\NullEncoder
+ * @covers \Brainbits\Transcoder\Encoder\DeflateEncoder
  */
-class NullEncoderTest extends TestCase
+class DeflateEncoderTest extends TestCase
 {
     /**
-      * @var NullEncoder
+      * @var DeflateEncoder
       */
     private $encoder;
 
     protected function setUp()
     {
-        $this->encoder = new NullEncoder();
+        $this->encoder = new DeflateEncoder();
     }
 
     public function testEncode()
@@ -35,13 +36,14 @@ class NullEncoderTest extends TestCase
 
         $result = $this->encoder->encode($testString);
 
-        $this->assertSame($testString, $result);
+        $uncompressedResult = gzinflate($result);
+
+        $this->assertSame($testString, $uncompressedResult);
     }
 
     public function testSupports()
     {
-        $this->assertTrue($this->encoder->supports('null'));
-        $this->assertTrue($this->encoder->supports(null));
+        $this->assertTrue($this->encoder->supports('deflate'));
         $this->assertFalse($this->encoder->supports('foo'));
     }
 }

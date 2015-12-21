@@ -9,17 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder;
+namespace Brainbits\Transcoder\Tests;
 
 use Brainbits\Transcoder\Decoder\DecoderInterface;
 use Brainbits\Transcoder\Encoder\EncoderInterface;
-use Brainbits\Transcoder\Tests\TranscoderTestHelper;
+use Brainbits\Transcoder\Transcoder;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * @covers Brainbits\Transcoder\Transcoder
- * @covers Brainbits\Transcoder\Tests\TranscoderTestHelper
  */
 class TranscoderTest extends TestCase
 {

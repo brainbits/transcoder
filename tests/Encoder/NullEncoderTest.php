@@ -9,24 +9,25 @@
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Encoder;
+namespace Brainbits\Transcoder\Tests\Encoder;
 
+use Brainbits\Transcoder\Encoder\NullEncoder;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @covers \Brainbits\Transcoder\Encoder\EncoderInterface
- * @covers \Brainbits\Transcoder\Encoder\Bzip2Encoder
+ * @covers \Brainbits\Transcoder\Encoder\NullEncoder
  */
-class Bzip2EncoderTest extends TestCase
+class NullEncoderTest extends TestCase
 {
     /**
-      * @var Bzip2Encoder
+      * @var NullEncoder
       */
     private $encoder;
 
     protected function setUp()
     {
-        $this->encoder = new Bzip2Encoder();
+        $this->encoder = new NullEncoder();
     }
 
     public function testEncode()
@@ -35,14 +36,13 @@ class Bzip2EncoderTest extends TestCase
 
         $result = $this->encoder->encode($testString);
 
-        $uncompressedResult = bzdecompress($result);
-
-        $this->assertSame($testString, $uncompressedResult);
+        $this->assertSame($testString, $result);
     }
 
     public function testSupports()
     {
-        $this->assertTrue($this->encoder->supports('bzip2'));
+        $this->assertTrue($this->encoder->supports('null'));
+        $this->assertTrue($this->encoder->supports(null));
         $this->assertFalse($this->encoder->supports('foo'));
     }
 }

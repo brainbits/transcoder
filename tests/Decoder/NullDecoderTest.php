@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Decoder;
+namespace Brainbits\Transcoder\Tests\Decoder;
 
+use Brainbits\Transcoder\Decoder\NullDecoder;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**

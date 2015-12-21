@@ -9,24 +9,25 @@
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Decoder;
+namespace Brainbits\Transcoder\Tests\Encoder;
 
+use Brainbits\Transcoder\Encoder\EncoderResolver;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @covers \Brainbits\Transcoder\Decoder\DecoderInterface
- * @covers \Brainbits\Transcoder\Decoder\DecoderResolver
+ * @covers \Brainbits\Transcoder\Encoder\EncoderInterface
+ * @covers \Brainbits\Transcoder\Encoder\EncoderResolver
  */
-class DecoderResolverTest extends TestCase
+class EncoderResolverTest extends TestCase
 {
     /**
-      * @var DecoderResolver
+      * @var EncoderResolver
       */
     private $resolver;
 
     protected function setUp()
     {
-        $this->resolver = new DecoderResolver();
+        $this->resolver = new EncoderResolver();
     }
 
     /**
@@ -42,30 +43,30 @@ class DecoderResolverTest extends TestCase
      */
     public function testResolveRuntimeExceptionWithoutMatchingDecoder()
     {
-        $decoderMock = $this->getMockBuilder('Brainbits\Transcoder\Decoder\DecoderInterface')
+        $encoderMock = $this->getMockBuilder('Brainbits\Transcoder\Encoder\EncoderInterface')
             ->getMock();
 
-        $decoderMock
+        $encoderMock
             ->expects($this->once())
             ->method('supports')
             ->will($this->returnValue(false));
 
-        $this->resolver->addDecoder($decoderMock);
+        $this->resolver->addEncoder($encoderMock);
 
         $this->resolver->resolve('test');
     }
 
     public function testResolveReturnsCorrectDecoder()
     {
-        $decoderMock = $this->getMockBuilder('Brainbits\Transcoder\Decoder\DecoderInterface')
+        $encoderMock = $this->getMockBuilder('Brainbits\Transcoder\Encoder\EncoderInterface')
             ->getMock();
 
-        $decoderMock
+        $encoderMock
             ->expects($this->once())
             ->method('supports')
             ->will($this->returnValue(true));
 
-        $this->resolver->addDecoder($decoderMock);
+        $this->resolver->addEncoder($encoderMock);
 
         $this->resolver->resolve('test');
     }

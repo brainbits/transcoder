@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Encoder;
+namespace Brainbits\Transcoder\Tests\Encoder;
 
+use Brainbits\Transcoder\Encoder\SevenzEncoder;
 use PHPUnit_Framework_TestCase as TestCase;
 use Symfony\Component\Process\ProcessBuilder;
 

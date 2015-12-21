@@ -6,7 +6,7 @@
          convertWarningsToExceptions="true"
          syntaxCheck="true">
     <testsuite name="brainbits">
-        <directory>Brainbits/</directory>
+        <directory>.</directory>
     </testsuite>
     <filter>
         <whitelist>

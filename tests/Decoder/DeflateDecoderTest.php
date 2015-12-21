@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Decoder;
+namespace Brainbits\Transcoder\Tests\Decoder;
 
+use Brainbits\Transcoder\Decoder\DeflateDecoder;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -20,7 +21,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 class DeflateDecoderTest extends TestCase
 {
     /**
-      * @var DecoderDeflate
+      * @var DeflateDecoder
       */
     private $decoder;
 
