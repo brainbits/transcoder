@@ -10,7 +10,7 @@
     </testsuite>
     <filter>
         <whitelist>
-            <directory suffix=".php">../src/Brainbits/</directory>
+            <directory suffix=".php">../src/</directory>
         </whitelist>
     </filter>
 </phpunit>
