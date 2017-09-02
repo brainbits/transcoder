@@ -11,63 +11,56 @@
 
 namespace Brainbits\Transcoder\Tests\Decoder;
 
+use Brainbits\Transcoder\Decoder\DecoderInterface;
 use Brainbits\Transcoder\Decoder\DecoderResolver;
-use PHPUnit_Framework_TestCase as TestCase;
+use Brainbits\Transcoder\Tests\TranscoderTestHelper;
+use PHPUnit\Framework\TestCase;
+use Prophecy\Prophecy\ObjectProphecy;
+use RuntimeException;
 
 /**
- * @covers \Brainbits\Transcoder\Decoder\DecoderInterface
  * @covers \Brainbits\Transcoder\Decoder\DecoderResolver
  */
 class DecoderResolverTest extends TestCase
 {
-    /**
-      * @var DecoderResolver
-      */
-    private $resolver;
-
-    protected function setUp()
-    {
-        $this->resolver = new DecoderResolver();
-    }
+    use TranscoderTestHelper;
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException RuntimeException
      */
     public function testResolveThrowsRuntimeExceptionWithoutDecoders()
     {
-        $this->resolver->resolve('test');
+        $this->expectException(RuntimeException::class);
+
+        $resolver = new DecoderResolver();
+
+        $resolver->resolve('test');
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException RuntimeException
      */
     public function testResolveRuntimeExceptionWithoutMatchingDecoder()
     {
-        $decoderMock = $this->getMockBuilder('Brainbits\Transcoder\Decoder\DecoderInterface')
-            ->getMock();
+        $decoder = $this->prophesizeDecoder();
+        $decoder->supports('test')
+            ->shouldBeCalled()
+            ->willReturn(false);
 
-        $decoderMock
-            ->expects($this->once())
-            ->method('supports')
-            ->will($this->returnValue(false));
+        $resolver = new DecoderResolver([$decoder->reveal()]);
 
-        $this->resolver->addDecoder($decoderMock);
-
-        $this->resolver->resolve('test');
+        $resolver->resolve('test');
     }
 
     public function testResolveReturnsCorrectDecoder()
     {
-        $decoderMock = $this->getMockBuilder('Brainbits\Transcoder\Decoder\DecoderInterface')
-            ->getMock();
+        $decoder = $this->prophesizeDecoder();
+        $decoder->supports('test')
+            ->shouldBeCalled()
+            ->willReturn(true);
 
-        $decoderMock
-            ->expects($this->once())
-            ->method('supports')
-            ->will($this->returnValue(true));
+        $resolver = new DecoderResolver([$decoder->reveal()]);
 
-        $this->resolver->addDecoder($decoderMock);
-
-        $this->resolver->resolve('test');
+        $resolver->resolve('test');
     }
 }

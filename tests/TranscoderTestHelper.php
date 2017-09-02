@@ -29,7 +29,7 @@ trait TranscoderTestHelper
     /**
      * @return ObjectProphecy|DecoderInterface
      */
-    public function createDecoderMock()
+    public function prophesizeDecoder()
     {
         return $this->prophesize(DecoderInterface::class);
     }
@@ -37,7 +37,7 @@ trait TranscoderTestHelper
     /**
      * @return ObjectProphecy|EncoderInterface
      */
-    public function createEncoderMock()
+    public function prophesizeEncoder()
     {
         return $this->prophesize(EncoderInterface::class);
     }
@@ -45,21 +45,16 @@ trait TranscoderTestHelper
     /**
      * @return ObjectProphecy|EncoderResolver
      */
-    public function createEncoderResolverMock()
+    public function prophesizeEncoderResolver()
     {
-        $mock = $this->prophesize(EncoderResolver::class);
-
-        return $mock;
+        return $this->prophesize(EncoderResolver::class);
     }
 
     /**
      * @return ObjectProphecy|DecoderResolver
      */
-    public function createDecoderResolverMock()
+    public function prophesizeDecoderResolver()
     {
-        $mock = $this->prophesize(DecoderResolver::class);
-
-        return $mock;
+        return $this->prophesize(DecoderResolver::class);
     }
-
 }

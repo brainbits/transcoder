@@ -12,10 +12,10 @@
 namespace Brainbits\Transcoder\Tests\Decoder;
 
 use Brainbits\Transcoder\Decoder\SevenzDecoder;
-use PHPUnit_Framework_TestCase as TestCase;
+use Brainbits\Transcoder\Exception\DecodeFailedException;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Brainbits\Transcoder\Decoder\DecoderInterface
  * @covers \Brainbits\Transcoder\Decoder\SevenzDecoder
  */
 class SevenzDecoderTest extends TestCase
@@ -46,7 +46,7 @@ class SevenzDecoderTest extends TestCase
     {
         $rc = null;
         $out = null;
-        exec('7z', $out, $rc);
+        exec('which 7z', $out, $rc);
 
         if ($rc) {
             $this->markTestSkipped('7z not found on system, skipping');
@@ -60,5 +60,19 @@ class SevenzDecoderTest extends TestCase
         $result = $decoder->decode($encodedString);
 
         $this->assertSame('test' . PHP_EOL, $result);
+    }
+
+    /**
+     * @depends testDecode
+     */
+    public function testFail()
+    {
+        $this->expectException(DecodeFailedException::class);
+
+        $encodedString = 'foo';
+
+        $decoder = new SevenzDecoder();
+
+        $decoder->decode($encodedString);
     }
 }

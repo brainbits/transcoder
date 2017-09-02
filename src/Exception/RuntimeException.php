@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -12,9 +14,7 @@
 namespace Brainbits\Transcoder\Exception;
 
 /**
- * Runtime exception
- *
- * @author Stephan Wentz <swentz@brainbits.net>
+ * Runtime exception.
  */
 class RuntimeException extends \RuntimeException
 {

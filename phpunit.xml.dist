@@ -5,12 +5,12 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          syntaxCheck="true">
-    <testsuite name="brainbits">
-        <directory>.</directory>
+    <testsuite name="transcoder">
+        <directory>tests</directory>
     </testsuite>
     <filter>
         <whitelist>
-            <directory suffix=".php">../src/</directory>
+            <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
 </phpunit>

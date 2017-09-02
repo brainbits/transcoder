@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -15,37 +17,20 @@ use Brainbits\Transcoder\Decoder\DecoderInterface;
 use Brainbits\Transcoder\Encoder\EncoderInterface;
 
 /**
- * Transcoder
- *
- * @author Gregor Welters <gwelters@brainbits.net>
+ * Transcoder.
  */
-class Transcoder
+class Transcoder implements TranscoderInterface
 {
-    /**
-     * @var DecoderInterface
-     */
     private $decoder;
-
-    /**
-     * @var EncoderInterface
-     */
     private $encoder;
 
-    /**
-     * @param DecoderInterface $decoder
-     * @param EncoderInterface $encoder
-     */
     public function __construct(DecoderInterface $decoder, EncoderInterface $encoder)
     {
         $this->decoder = $decoder;
         $this->encoder = $encoder;
     }
 
-    /**
-     * @param $data string
-     * @return string
-     */
-    public function transcode($data)
+    public function transcode(string $data): string
     {
         $data = $this->decoder->decode($data);
         $data = $this->encoder->encode($data);

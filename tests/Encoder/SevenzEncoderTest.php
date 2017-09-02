@@ -12,11 +12,9 @@
 namespace Brainbits\Transcoder\Tests\Encoder;
 
 use Brainbits\Transcoder\Encoder\SevenzEncoder;
-use PHPUnit_Framework_TestCase as TestCase;
-use Symfony\Component\Process\ProcessBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Brainbits\Transcoder\Encoder\EncoderInterface
  * @covers \Brainbits\Transcoder\Encoder\SevenzEncoder
  */
 class SevenzEncoderTest extends TestCase
@@ -47,7 +45,7 @@ class SevenzEncoderTest extends TestCase
     {
         $rc = null;
         $out = null;
-        exec('7z', $out, $rc);
+        exec('which 7z', $out, $rc);
 
         if ($rc) {
             $this->markTestSkipped('7z not found on system, skipping');

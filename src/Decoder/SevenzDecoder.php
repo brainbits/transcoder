@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -16,78 +18,50 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
- * 7z decoder
- *
- * @author Gregor Welters <gwelters@brainbits.net>
+ * 7z decoder.
  */
 class SevenzDecoder implements DecoderInterface
 {
     const TYPE = '7z';
 
-    /**
-     * @var string
-     */
     private $executable;
 
-    /**
-     * @var string
-     */
-    private $data;
-
-    /**
-     * @param $executable string
-     */
-    public function __construct($executable = '7z')
+    public function __construct(string $executable = '7z')
     {
         $this->executable = $executable;
     }
 
-    /**
-     * Return executable
-     *
-     * @return string
-     */
-    public function getExecutable()
+    public function getExecutable(): string
     {
         return $this->executable;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function decode($data)
+    public function decode(string $data): string
     {
-        $this->data = $data;
-
-        $process = $this->getProcess();
+        $process = $this->getProcess($data);
         $process->run();
 
-        if ($process->isSuccessful()) {
-            $data = $process->getOutput();
-        } else {
+        if (!$process->isSuccessful()) {
             throw new DecodeFailedException('7z failure: '.$process->getOutput().$process->getErrorOutput());
         }
+
+        $data = $process->getOutput();
 
         return $data;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supports($type)
+    public function supports(?string $type): bool
     {
         return self::TYPE === $type;
     }
 
-    /**
-     * @return Process
-     */
-    private function getProcess()
+    private function getProcess(string $data): Process
     {
         $processBuilder = new ProcessBuilder(
             [$this->executable, 'e', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m']
         );
-        $processBuilder->setInput($this->data);
+        $processBuilder->setInput($data);
+
         return $processBuilder->getProcess();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -14,18 +16,13 @@ namespace Brainbits\Transcoder\Decoder;
 use Brainbits\Transcoder\Exception\DecodeFailedException;
 
 /**
- * Bzip2 decoder
- *
- * @author Gregor Welters <gwelters@brainbits.net>
+ * Bzip2 decoder.
  */
 class Bzip2Decoder implements DecoderInterface
 {
     const TYPE = 'bzip2';
 
-    /**
-     * @inheritDoc
-     */
-    public function decode($data)
+    public function decode(string $data): string
     {
         $data = bzdecompress($data);
 
@@ -40,10 +37,7 @@ class Bzip2Decoder implements DecoderInterface
         return $data;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supports($type)
+    public function supports(?string $type): bool
     {
         return self::TYPE === $type;
     }
@@ -53,7 +47,7 @@ class Bzip2Decoder implements DecoderInterface
      *
      * @return bool
      */
-    private function isErrorCode($result)
+    private function isErrorCode($result): bool
     {
         return $result === -1 || $result === -2 || $result === -3 || $result === -5 || $result === -6 ||
             $result === -7 || $result === -8 || $result === -9;

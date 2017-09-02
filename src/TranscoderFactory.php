@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -16,28 +18,15 @@ use Brainbits\Transcoder\Encoder\EncoderResolverInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Transcoder factory
+ * Transcoder factory.
  * Creates transcoder object.
- *
- * @author Gregor Welters <gwelters@brainbits.net>
  */
 class TranscoderFactory
 {
-    /**
-     * @var DecoderResolverInterface
-     */
     private $decoderResolver;
-
-    /**
-     * @var EncoderResolverInterface
-     */
     private $encoderResolver;
+    private $logger;
 
-    /**
-     * @param DecoderResolverInterface $decoderResolver
-     * @param EncoderResolverInterface $encoderResolver
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         DecoderResolverInterface $decoderResolver,
         EncoderResolverInterface $encoderResolver,
@@ -48,15 +37,9 @@ class TranscoderFactory
         $this->logger = $logger;
     }
 
-    /**
-     * @param null|string $inputType
-     * @param null|string $outputType
-     *
-     * @return Transcoder
-     */
-    public function createTranscoder($inputType = null, $outputType = null)
+    public function createTranscoder(?string $inputType = null, ?string $outputType = null): Transcoder
     {
-        $this->logger->debug('Creating transcoder with input type ' . $inputType . ' and output type ' . $outputType);
+        $this->logger->debug("Creating transcoder with input type $inputType and output type $outputType");
 
         if ($inputType === $outputType) {
             $inputType = $outputType = null;

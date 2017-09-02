@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -14,18 +16,13 @@ namespace Brainbits\Transcoder\Encoder;
 use Brainbits\Transcoder\Exception\EncodeFailedException;
 
 /**
- * deflate encoder
- *
- * @author Gregor Welters <gwelters@brainbits.net>
+ * deflate encoder.
  */
 class DeflateEncoder implements EncoderInterface
 {
     const TYPE = 'deflate';
 
-    /**
-     * @inheritDoc
-     */
-    public function encode($data)
+    public function encode(string $data): string
     {
         $data = gzdeflate($data, 9);
 
@@ -36,10 +33,7 @@ class DeflateEncoder implements EncoderInterface
         return $data;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supports($type)
+    public function supports(?string $type): bool
     {
         return self::TYPE === $type;
     }

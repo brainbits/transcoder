@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -12,25 +14,17 @@
 namespace Brainbits\Transcoder\Decoder;
 
 /**
- * Decoder interface
- *
- * @author Gregor Welters <gwelters@brainbits.net>
+ * Decoder interface.
  */
 interface DecoderInterface
 {
     /**
-     * Decode data
-     *
-     * @param string $data
-     * @return string
+     * Decode data.
      */
-    public function decode($data);
+    public function decode(string $data): string;
 
     /**
-     * Returns true if type is supported, false otherwise
-     *
-     * @param string $type
-     * @return boolean
+     * Returns true if type is supported, false otherwise.
      */
-    public function supports($type);
+    public function supports(?string $type): bool;
 }

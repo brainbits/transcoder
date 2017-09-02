@@ -12,13 +12,13 @@
 namespace Brainbits\Transcoder\Tests\Decoder;
 
 use Brainbits\Transcoder\Decoder\Bzip2Decoder;
-use PHPUnit_Framework_TestCase as TestCase;
+use Brainbits\Transcoder\Exception\DecodeFailedException;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Brainbits\Transcoder\Decoder\DecoderInterface
  * @covers \Brainbits\Transcoder\Decoder\Bzip2Decoder
  */
-class DecoderBzip2Test extends TestCase
+class Bzip2DecoderTest extends TestCase
 {
     /**
       * @var Bzip2Decoder
@@ -40,11 +40,10 @@ class DecoderBzip2Test extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    /**
-     * @expectedException \Brainbits\Transcoder\Exception\DecodeFailedException
-     */
     public function testDecodeThrowsErrorOnEmptyResult()
     {
+        $this->expectException(DecodeFailedException::class);
+
         $testString    = '';
         $encodedString = bzcompress($testString);
 
@@ -53,11 +52,10 @@ class DecoderBzip2Test extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    /**
-     * @expectedException \Brainbits\Transcoder\Exception\DecodeFailedException
-     */
     public function testDecodeError()
     {
+        $this->expectException(DecodeFailedException::class);
+
         $testString = 'invalid encoded data';
 
         $this->decoder->decode($testString);

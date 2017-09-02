@@ -11,63 +11,51 @@
 
 namespace Brainbits\Transcoder\Tests\Encoder;
 
+use Brainbits\Transcoder\Encoder\EncoderInterface;
 use Brainbits\Transcoder\Encoder\EncoderResolver;
-use PHPUnit_Framework_TestCase as TestCase;
+use Brainbits\Transcoder\Tests\TranscoderTestHelper;
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
- * @covers \Brainbits\Transcoder\Encoder\EncoderInterface
  * @covers \Brainbits\Transcoder\Encoder\EncoderResolver
  */
 class EncoderResolverTest extends TestCase
 {
-    /**
-      * @var EncoderResolver
-      */
-    private $resolver;
+    use TranscoderTestHelper;
 
-    protected function setUp()
-    {
-        $this->resolver = new EncoderResolver();
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testResolveThrowsRuntimeExceptionWithoutDecoders()
     {
-        $this->resolver->resolve('test');
+        $this->expectException(RuntimeException::class);
+
+        $resolver = new EncoderResolver();
+
+        $resolver->resolve('test');
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testResolveRuntimeExceptionWithoutMatchingDecoder()
     {
-        $encoderMock = $this->getMockBuilder('Brainbits\Transcoder\Encoder\EncoderInterface')
-            ->getMock();
+        $this->expectException(RuntimeException::class);
 
-        $encoderMock
-            ->expects($this->once())
-            ->method('supports')
-            ->will($this->returnValue(false));
+        $encoder = $this->prophesizeEncoder();
+        $encoder->supports('test')
+            ->shouldBeCalled()
+            ->willReturn(false);
 
-        $this->resolver->addEncoder($encoderMock);
+        $resolver = new EncoderResolver([$encoder->reveal()]);
 
-        $this->resolver->resolve('test');
+        $resolver->resolve('test');
     }
 
     public function testResolveReturnsCorrectDecoder()
     {
-        $encoderMock = $this->getMockBuilder('Brainbits\Transcoder\Encoder\EncoderInterface')
-            ->getMock();
+        $encoder = $this->prophesizeEncoder();
+        $encoder->supports('test')
+            ->shouldBeCalled()
+            ->willReturn(true);
 
-        $encoderMock
-            ->expects($this->once())
-            ->method('supports')
-            ->will($this->returnValue(true));
+        $resolver = new EncoderResolver([$encoder->reveal()]);
 
-        $this->resolver->addEncoder($encoderMock);
-
-        $this->resolver->resolve('test');
+        $resolver->resolve('test');
     }
 }

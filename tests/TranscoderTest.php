@@ -14,11 +14,11 @@ namespace Brainbits\Transcoder\Tests;
 use Brainbits\Transcoder\Decoder\DecoderInterface;
 use Brainbits\Transcoder\Encoder\EncoderInterface;
 use Brainbits\Transcoder\Transcoder;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
- * @covers Brainbits\Transcoder\Transcoder
+ * @covers \Brainbits\Transcoder\Transcoder
  */
 class TranscoderTest extends TestCase
 {
@@ -27,12 +27,12 @@ class TranscoderTest extends TestCase
     /**
      * @var ObjectProphecy|DecoderInterface
      */
-    private $decoderMock;
+    private $decoder;
 
     /**
      * @var ObjectProphecy|EncoderInterface
      */
-    private $encoderMock;
+    private $encoder;
 
     /**
      * @var Transcoder
@@ -43,10 +43,10 @@ class TranscoderTest extends TestCase
     {
         parent::setUp();
 
-        $this->decoderMock = $this->createDecoderMock();
-        $this->encoderMock = $this->createEncoderMock();
+        $this->decoder = $this->prophesizeDecoder();
+        $this->encoder = $this->prophesizeEncoder();
 
-        $this->transcoder = new Transcoder($this->decoderMock->reveal(), $this->encoderMock->reveal());
+        $this->transcoder = new Transcoder($this->decoder->reveal(), $this->encoder->reveal());
     }
 
     public function testConstructor()
@@ -60,9 +60,9 @@ class TranscoderTest extends TestCase
         $decodedValue    = 'decoded';
         $transcodedValue = 'transcoded';
 
-        $this->decoderMock->decode($encodedValue)->willReturn($decodedValue);
+        $this->decoder->decode($encodedValue)->willReturn($decodedValue);
 
-        $this->encoderMock->encode($decodedValue)->willReturn($transcodedValue);
+        $this->encoder->encode($decodedValue)->willReturn($transcodedValue);
 
         $result = $this->transcoder->transcode($encodedValue);
 

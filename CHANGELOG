@@ -1,0 +1,4 @@
+3.0
+
+- DecoderResolver::addDecoder() is now private
+- EncoderResolver::addDecoder() is now private
