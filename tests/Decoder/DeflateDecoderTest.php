@@ -12,10 +12,10 @@
 namespace Brainbits\Transcoder\Tests\Decoder;
 
 use Brainbits\Transcoder\Decoder\DeflateDecoder;
-use PHPUnit_Framework_TestCase as TestCase;
+use Brainbits\Transcoder\Exception\DecodeFailedException;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Brainbits\Transcoder\Decoder\DecoderInterface
  * @covers \Brainbits\Transcoder\Decoder\DeflateDecoder
  */
 class DeflateDecoderTest extends TestCase
@@ -40,11 +40,10 @@ class DeflateDecoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    /**
-     * @expectedException \Brainbits\Transcoder\Exception\DecodeFailedException
-     */
     public function testDecodeThrowsErrorOnEmptyResult()
     {
+        $this->expectException(DecodeFailedException::class);
+
         $testString    = '';
         $encodedString = gzdeflate($testString);
 

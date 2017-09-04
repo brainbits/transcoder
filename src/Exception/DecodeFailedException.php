@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -12,9 +14,7 @@
 namespace Brainbits\Transcoder\Exception;
 
 /**
- * Decode failed exception
- *
- * @author Stephan Wentz <swentz@brainbits.net>
+ * Decode failed exception.
  */
 class DecodeFailedException extends RuntimeException implements ExceptionInterface
 {

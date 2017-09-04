@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -12,26 +14,18 @@
 namespace Brainbits\Transcoder\Encoder;
 
 /**
- * Null encoder
- *
- * @author Phillip Look <plook@brainbits.net>
+ * Null encoder.
  */
 class NullEncoder implements EncoderInterface
 {
     const TYPE = 'null';
 
-    /**
-     * @inheritDoc
-     */
-    public function encode($data)
+    public function encode(string $data): string
     {
         return $data;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supports($type)
+    public function supports(?string $type): bool
     {
         return null === $type || self::TYPE === $type;
     }

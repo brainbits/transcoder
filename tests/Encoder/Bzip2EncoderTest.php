@@ -12,10 +12,9 @@
 namespace Brainbits\Transcoder\Tests\Encoder;
 
 use Brainbits\Transcoder\Encoder\Bzip2Encoder;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Brainbits\Transcoder\Encoder\EncoderInterface
  * @covers \Brainbits\Transcoder\Encoder\Bzip2Encoder
  */
 class Bzip2EncoderTest extends TestCase

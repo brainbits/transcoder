@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -12,9 +14,7 @@
 namespace Brainbits\Transcoder\Exception;
 
 /**
- * Encode failed exception
- *
- * @author Stephan Wentz <swentz@brainbits.net>
+ * Encode failed exception.
  */
 class EncodeFailedException extends RuntimeException implements ExceptionInterface
 {

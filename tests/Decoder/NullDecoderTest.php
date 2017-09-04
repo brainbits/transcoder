@@ -12,10 +12,9 @@
 namespace Brainbits\Transcoder\Tests\Decoder;
 
 use Brainbits\Transcoder\Decoder\NullDecoder;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Brainbits\Transcoder\Decoder\DecoderInterface
  * @covers \Brainbits\Transcoder\Decoder\NullDecoder
  */
 class NullDecoderTest extends TestCase

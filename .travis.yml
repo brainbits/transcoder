@@ -1,10 +1,13 @@
 language: php
 
 php:
-  - 5.5
-  - 5.6
-  - 7
-  - hhvm
+  - 7.1
+  - nightly
+
+matrix:
+  allow_failures:
+    - php:
+        - nightly
 
 before_install:
   - sudo apt-get update -qq
@@ -12,7 +15,7 @@ before_install:
 
 before_script: composer install 
 
-script: vendor/bin/phpunit -c tests --coverage-clover=coverage.clover
+script: vendor/bin/phpunit tests --coverage-clover=coverage.clover
 
 after_script:
-  - sh -c 'if [ $(phpenv version-name) = "5.6" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;'
+  - sh -c 'if [ $(phpenv version-name) = "7.1" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;'

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -12,11 +14,8 @@
 namespace Brainbits\Transcoder\Encoder;
 
 /**
- * Encoder resolver
- * Resolves decoders based on supported type
- *
- * @author Stephan Wentz <swentz@brainbits.net>
- * @author Gregor Welters <gwelters@brainbits.net>
+ * Encoder resolver.
+ * Resolves decoders based on supported type.
  */
 class EncoderResolver implements EncoderResolverInterface
 {
@@ -30,27 +29,12 @@ class EncoderResolver implements EncoderResolverInterface
      */
     public function __construct(array $encoders = array())
     {
-        $this->encoders = $encoders;
+        foreach ($encoders as $encoder) {
+            $this->addEncoder($encoder);
+        }
     }
 
-    /**
-     * Add encoder
-     *
-     * @param EncoderInterface $encoder
-     * @return $this
-     */
-    public function addEncoder(EncoderInterface $encoder)
-    {
-        $this->encoders[] = $encoder;
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     * @throws \RuntimeException
-     */
-    public function resolve($type)
+    public function resolve(?string $type): EncoderInterface
     {
         foreach ($this->encoders as $encoder) {
             if ($encoder->supports($type)) {
@@ -59,5 +43,10 @@ class EncoderResolver implements EncoderResolverInterface
         }
 
         throw new \RuntimeException("No decoder supports the requested type $type");
+    }
+
+    private function addEncoder(EncoderInterface $encoder): void
+    {
+        $this->encoders[] = $encoder;
     }
 }

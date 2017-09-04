@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * This file is part of the brainbits transcoder package.
  *
@@ -12,16 +14,10 @@
 namespace Brainbits\Transcoder\Encoder;
 
 /**
- * Encoder resolver interface
- * Resolves decoders based on supported type
- *
- * @author Stephan Wentz <swentz@brainbits.net>
+ * Encoder resolver interface.
+ * Resolves decoders based on supported type.
  */
 interface EncoderResolverInterface
 {
-    /**
-     * @param string|null $type
-     * @return EncoderInterface
-     */
-    public function resolve($type);
+    public function resolve(?string $type): EncoderInterface;
 }

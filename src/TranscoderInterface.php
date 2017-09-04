@@ -11,13 +11,12 @@ declare(strict_types = 1);
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\Transcoder\Exception;
-
-use Throwable;
+namespace Brainbits\Transcoder;
 
 /**
- * Exception interface.
+ * Transcoder interface.
  */
-interface ExceptionInterface extends Throwable
+interface TranscoderInterface
 {
+    public function transcode(string $data): string;
 }
