@@ -25,12 +25,12 @@ class DeflateDecoderTest extends TestCase
       */
     private $decoder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->decoder = new DeflateDecoder();
     }
 
-    public function testDecode()
+    public function testDecode(): void
     {
         $testString    = 'a string to be decompressed';
         $encodedString = gzdeflate($testString);
@@ -40,7 +40,7 @@ class DeflateDecoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    public function testDecodeThrowsErrorOnEmptyResult()
+    public function testDecodeThrowsErrorOnEmptyResult(): void
     {
         $this->expectException(DecodeFailedException::class);
 
@@ -52,7 +52,7 @@ class DeflateDecoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $this->assertTrue($this->decoder->supports('deflate'));
         $this->assertFalse($this->decoder->supports('foo'));

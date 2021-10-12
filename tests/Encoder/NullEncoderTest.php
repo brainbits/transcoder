@@ -24,12 +24,12 @@ class NullEncoderTest extends TestCase
       */
     private $encoder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->encoder = new NullEncoder();
     }
 
-    public function testEncode()
+    public function testEncode(): void
     {
         $testString = 'a string to be compressed';
 
@@ -38,7 +38,7 @@ class NullEncoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $this->assertTrue($this->encoder->supports('null'));
         $this->assertTrue($this->encoder->supports(null));

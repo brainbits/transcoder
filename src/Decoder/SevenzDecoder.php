@@ -15,7 +15,6 @@ namespace Brainbits\Transcoder\Decoder;
 
 use Brainbits\Transcoder\Exception\DecodeFailedException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * 7z decoder.
@@ -57,11 +56,11 @@ class SevenzDecoder implements DecoderInterface
 
     private function getProcess(string $data): Process
     {
-        $processBuilder = new ProcessBuilder(
+        $process = new Process(
             [$this->executable, 'e', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m']
         );
-        $processBuilder->setInput($data);
+        $process->setInput($data);
 
-        return $processBuilder->getProcess();
+        return $process;
     }
 }

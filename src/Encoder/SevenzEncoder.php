@@ -15,7 +15,6 @@ namespace Brainbits\Transcoder\Encoder;
 
 use Brainbits\Transcoder\Exception\EncodeFailedException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * 7z encoder.
@@ -57,11 +56,11 @@ class SevenzEncoder implements EncoderInterface
 
     private function getProcess(string $data): Process
     {
-        $processBuilder = new ProcessBuilder(
+        $process = new Process(
             [$this->executable, 'a', '-si', '-so', '-an', '-txz', '-m0=lzma2', '-mx=9', '-mfb=64', '-md=32m']
         );
-        $processBuilder->setInput($data);
+        $process->setInput($data);
 
-        return $processBuilder->getProcess();
+        return $process;
     }
 }

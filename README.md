@@ -1,7 +1,6 @@
 Transcoder Library
 ==================
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/101113a8-06da-4547-aae8-cc9c77027c5b/mini.png)](https://insight.sensiolabs.com/projects/101113a8-06da-4547-aae8-cc9c77027c5b)
 [![Build Status](https://travis-ci.org/brainbits/transcoder.png?branch=master)](https://travis-ci.org/brainbits/transcoder)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brainbits/transcoder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/brainbits/transcoder/?branch=master)
 [![Scrutinizer Code Coverage](https://scrutinizer-ci.com/g/brainbits/transcoder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/brainbits/transcoder/?branch=master)

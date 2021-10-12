@@ -15,6 +15,7 @@ use Brainbits\Transcoder\Decoder\DecoderInterface;
 use Brainbits\Transcoder\Encoder\EncoderInterface;
 use Brainbits\Transcoder\Transcoder;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
@@ -22,6 +23,7 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 class TranscoderTest extends TestCase
 {
+    use ProphecyTrait;
     use TranscoderTestHelper;
 
     /**
@@ -39,7 +41,7 @@ class TranscoderTest extends TestCase
      */
     private $transcoder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -49,12 +51,12 @@ class TranscoderTest extends TestCase
         $this->transcoder = new Transcoder($this->decoder->reveal(), $this->encoder->reveal());
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertInstanceOf(Transcoder::class, $this->transcoder);
     }
 
-    public function testTranscode()
+    public function testTranscode(): void
     {
         $encodedValue    = 'encoded';
         $decodedValue    = 'decoded';

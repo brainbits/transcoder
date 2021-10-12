@@ -15,6 +15,7 @@ use Brainbits\Transcoder\Encoder\EncoderInterface;
 use Brainbits\Transcoder\Encoder\EncoderResolver;
 use Brainbits\Transcoder\Tests\TranscoderTestHelper;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use RuntimeException;
 
 /**
@@ -22,9 +23,10 @@ use RuntimeException;
  */
 class EncoderResolverTest extends TestCase
 {
+    use ProphecyTrait;
     use TranscoderTestHelper;
 
-    public function testResolveThrowsRuntimeExceptionWithoutDecoders()
+    public function testResolveThrowsRuntimeExceptionWithoutDecoders(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -33,7 +35,7 @@ class EncoderResolverTest extends TestCase
         $resolver->resolve('test');
     }
 
-    public function testResolveRuntimeExceptionWithoutMatchingDecoder()
+    public function testResolveRuntimeExceptionWithoutMatchingDecoder(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -47,7 +49,7 @@ class EncoderResolverTest extends TestCase
         $resolver->resolve('test');
     }
 
-    public function testResolveReturnsCorrectDecoder()
+    public function testResolveReturnsCorrectDecoder(): void
     {
         $encoder = $this->prophesizeEncoder();
         $encoder->supports('test')

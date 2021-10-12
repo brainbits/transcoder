@@ -19,12 +19,13 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": ">=7.4",
         "psr/log": "^1.0",
-        "symfony/process": "^2.8|^3.0"
+        "symfony/process": ">=4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^9.5",
+        "phpspec/prophecy-phpunit": "^2.0"
     },
     "autoload": {
         "psr-4": { "Brainbits\\Transcoder\\": "src/" }

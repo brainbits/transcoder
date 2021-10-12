@@ -18,6 +18,7 @@ use Brainbits\Transcoder\Encoder\EncoderResolver;
 use Brainbits\Transcoder\TranscoderFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 
@@ -26,6 +27,7 @@ use Psr\Log\LoggerInterface;
  */
 class TranscoderFactoryTest extends TestCase
 {
+    use ProphecyTrait;
     use TranscoderTestHelper;
 
     /**
@@ -58,7 +60,7 @@ class TranscoderFactoryTest extends TestCase
       */
     private $transcoderFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -77,7 +79,7 @@ class TranscoderFactoryTest extends TestCase
         );
     }
 
-    public function testEncoderFactoryIsCalledWithEncoderType()
+    public function testEncoderFactoryIsCalledWithEncoderType(): void
     {
         $expectedEncoder = 'encoder';
 
@@ -92,7 +94,7 @@ class TranscoderFactoryTest extends TestCase
         $this->transcoderFactory->createTranscoder(null, $expectedEncoder);
     }
 
-    public function testEncoderFactoryIsCalledWithDecoderType()
+    public function testEncoderFactoryIsCalledWithDecoderType(): void
     {
         $expectedDecoder = 'decoder';
 
@@ -107,7 +109,7 @@ class TranscoderFactoryTest extends TestCase
         $this->transcoderFactory->createTranscoder($expectedDecoder, null);
     }
 
-    public function testPassThroughTranscoderIsCreatedForSameDecoderEncoder()
+    public function testPassThroughTranscoderIsCreatedForSameDecoderEncoder(): void
     {
         $expectedEncoder = $expectedDecoder = 'same';
 
@@ -122,7 +124,7 @@ class TranscoderFactoryTest extends TestCase
         $this->transcoderFactory->createTranscoder($expectedDecoder, $expectedEncoder);
     }
 
-    public function testTranscoderWasCreatedWithCreatedFactories()
+    public function testTranscoderWasCreatedWithCreatedFactories(): void
     {
         $this->encoderResolver->resolve('encode')
             ->shouldBeCalled()
