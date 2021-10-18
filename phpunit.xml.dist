@@ -3,14 +3,8 @@
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         syntaxCheck="true">
+         convertWarningsToExceptions="true">
     <testsuite name="transcoder">
-        <directory>tests</directory>
+        <directory suffix=".php">tests</directory>
     </testsuite>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/</directory>
-        </whitelist>
-    </filter>
 </phpunit>
