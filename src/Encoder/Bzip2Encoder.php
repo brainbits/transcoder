@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the brainbits transcoder package.
@@ -15,19 +15,26 @@ namespace Brainbits\Transcoder\Encoder;
 
 use Brainbits\Transcoder\Exception\EncodeFailedException;
 
+use function bzcompress;
+use function is_string;
+
 /**
  * bzip2 encoder.
  */
 class Bzip2Encoder implements EncoderInterface
 {
-    const TYPE = 'bzip2';
+    public const TYPE = 'bzip2';
 
     public function encode(string $data): string
     {
         $data = bzcompress($data, 9);
 
         if (!$data) {
-            throw new EncodeFailedException("bzcompress returned no data.");
+            throw new EncodeFailedException('bzcompress returned no data.');
+        }
+
+        if (!is_string($data)) {
+            throw new EncodeFailedException('bzdecompress returned error code.');
         }
 
         return $data;
@@ -35,6 +42,6 @@ class Bzip2Encoder implements EncoderInterface
 
     public function supports(?string $type): bool
     {
-        return self::TYPE === $type;
+        return $type === self::TYPE;
     }
 }

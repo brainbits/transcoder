@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the brainbits transcoder package.
@@ -18,7 +18,7 @@ namespace Brainbits\Transcoder\Encoder;
  */
 class NullEncoder implements EncoderInterface
 {
-    const TYPE = 'null';
+    public const TYPE = 'null';
 
     public function encode(string $data): string
     {
@@ -27,6 +27,6 @@ class NullEncoder implements EncoderInterface
 
     public function supports(?string $type): bool
     {
-        return null === $type || self::TYPE === $type;
+        return $type === null || $type === self::TYPE;
     }
 }
