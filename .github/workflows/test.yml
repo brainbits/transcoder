@@ -4,7 +4,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron:  '0 03 * * 1' # At 03:00 on Monday.
+    - cron: '0 03 * * 1' # At 03:00 on Monday.
 
 jobs:
   tests:
