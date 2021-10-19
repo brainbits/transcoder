@@ -19,21 +19,21 @@ use PHPUnit\Framework\TestCase;
  */
 class SevenzEncoderTest extends TestCase
 {
-    public function testEmptyConstructor()
+    public function testEmptyConstructor(): void
     {
         $encoder = new SevenzEncoder();
 
         $this->assertSame('7z', $encoder->getExecutable());
     }
 
-    public function testExecutable()
+    public function testExecutable(): void
     {
         $encoder = new SevenzEncoder('foo');
 
         $this->assertSame('foo', $encoder->getExecutable());
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $encoder = new SevenzEncoder();
 
@@ -41,7 +41,7 @@ class SevenzEncoderTest extends TestCase
         $this->assertFalse($encoder->supports('foo'));
     }
 
-    public function testEncode()
+    public function testEncode(): void
     {
         $rc = null;
         $out = null;

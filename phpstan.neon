@@ -1,0 +1,9 @@
+parameters:
+    checkMissingIterableValueType: false
+    level: max
+    paths:
+        - src
+    bootstrapFiles:
+        - vendor/autoload.php
+includes:
+    - vendor/brainbits/phpstan-rules/rules.neon

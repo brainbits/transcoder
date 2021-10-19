@@ -24,7 +24,7 @@ class Bzip2EncoderTest extends TestCase
       */
     private $encoder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->encoder = new Bzip2Encoder();
     }

@@ -20,21 +20,21 @@ use PHPUnit\Framework\TestCase;
  */
 class SevenzDecoderTest extends TestCase
 {
-    public function testEmptyConstructor()
+    public function testEmptyConstructor(): void
     {
         $decoder = new SevenzDecoder();
 
         $this->assertSame('7z', $decoder->getExecutable());
     }
 
-    public function testExecutable()
+    public function testExecutable(): void
     {
         $decoder = new SevenzDecoder('foo');
 
         $this->assertSame('foo', $decoder->getExecutable());
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $decoder = new SevenzDecoder();
 
@@ -42,7 +42,7 @@ class SevenzDecoderTest extends TestCase
         $this->assertFalse($decoder->supports('foo'));
     }
 
-    public function testDecode()
+    public function testDecode(): void
     {
         $rc = null;
         $out = null;
@@ -65,7 +65,7 @@ class SevenzDecoderTest extends TestCase
     /**
      * @depends testDecode
      */
-    public function testFail()
+    public function testFail(): void
     {
         $this->expectException(DecodeFailedException::class);
 

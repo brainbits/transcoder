@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the brainbits transcoder package.
@@ -15,19 +15,21 @@ namespace Brainbits\Transcoder\Encoder;
 
 use Brainbits\Transcoder\Exception\EncodeFailedException;
 
+use function gzencode;
+
 /**
  * gzip encoder.
  */
 class GzipEncoder implements EncoderInterface
 {
-    const TYPE = 'gzip';
+    public const TYPE = 'gzip';
 
     public function encode(string $data): string
     {
         $data = gzencode($data, 9);
 
         if (!$data) {
-            throw new EncodeFailedException("gzencode returned no data.");
+            throw new EncodeFailedException('gzencode returned no data.');
         }
 
         return $data;
@@ -35,6 +37,6 @@ class GzipEncoder implements EncoderInterface
 
     public function supports(?string $type): bool
     {
-        return self::TYPE === $type;
+        return $type === self::TYPE;
     }
 }

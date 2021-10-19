@@ -24,12 +24,12 @@ class DeflateEncoderTest extends TestCase
       */
     private $encoder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->encoder = new DeflateEncoder();
     }
 
-    public function testEncode()
+    public function testEncode(): void
     {
         $testString = 'a string to be compressed';
 
@@ -40,7 +40,7 @@ class DeflateEncoderTest extends TestCase
         $this->assertSame($testString, $uncompressedResult);
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $this->assertTrue($this->encoder->supports('deflate'));
         $this->assertFalse($this->encoder->supports('foo'));

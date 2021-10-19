@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the brainbits transcoder package.
@@ -13,7 +13,9 @@ declare(strict_types = 1);
 
 namespace Brainbits\Transcoder\Decoder;
 
-use RuntimeException;
+use Brainbits\Transcoder\Exception\RuntimeException;
+
+use function sprintf;
 
 /**
  * Decoder resolver.
@@ -21,15 +23,13 @@ use RuntimeException;
  */
 class DecoderResolver implements DecoderResolverInterface
 {
-    /**
-     * @var DecoderInterface[]
-     */
-    private $decoders = array();
+    /** @var DecoderInterface[] */
+    private array $decoders = [];
 
     /**
      * @param DecoderInterface[] $decoders
      */
-    public function __construct(array $decoders = array())
+    public function __construct(array $decoders = [])
     {
         foreach ($decoders as $decoder) {
             $this->addDecoder($decoder);
@@ -44,7 +44,7 @@ class DecoderResolver implements DecoderResolverInterface
             }
         }
 
-        throw new RuntimeException("No decoder supports the requested type $type");
+        throw new RuntimeException(sprintf('No decoder supports the requested type %s', (string) $type));
     }
 
     private function addDecoder(DecoderInterface $decoder): void

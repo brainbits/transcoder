@@ -25,12 +25,12 @@ class Bzip2DecoderTest extends TestCase
       */
     private $decoder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->decoder = new Bzip2Decoder();
     }
 
-    public function testDecode()
+    public function testDecode(): void
     {
         $testString    = 'a string to be decompressed';
         $encodedString = bzcompress($testString);
@@ -40,7 +40,7 @@ class Bzip2DecoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    public function testDecodeThrowsErrorOnEmptyResult()
+    public function testDecodeThrowsErrorOnEmptyResult(): void
     {
         $this->expectException(DecodeFailedException::class);
 
@@ -52,7 +52,7 @@ class Bzip2DecoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    public function testDecodeError()
+    public function testDecodeError(): void
     {
         $this->expectException(DecodeFailedException::class);
 
@@ -61,7 +61,7 @@ class Bzip2DecoderTest extends TestCase
         $this->decoder->decode($testString);
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $this->assertTrue($this->decoder->supports('bzip2'));
         $this->assertFalse($this->decoder->supports('foo'));

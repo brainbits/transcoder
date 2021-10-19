@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the brainbits transcoder package.
@@ -21,8 +21,8 @@ use Brainbits\Transcoder\Encoder\EncoderInterface;
  */
 class Transcoder implements TranscoderInterface
 {
-    private $decoder;
-    private $encoder;
+    private DecoderInterface $decoder;
+    private EncoderInterface $encoder;
 
     public function __construct(DecoderInterface $decoder, EncoderInterface $encoder)
     {

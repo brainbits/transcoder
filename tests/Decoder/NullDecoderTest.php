@@ -24,12 +24,12 @@ class NullDecoderTest extends TestCase
       */
     private $decoder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->decoder = new NullDecoder();
     }
 
-    public function testDecode()
+    public function testDecode(): void
     {
         $testString = 'a string to be decompressed';
 
@@ -38,7 +38,7 @@ class NullDecoderTest extends TestCase
         $this->assertSame($testString, $result);
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $this->assertTrue($this->decoder->supports('null'));
         $this->assertTrue($this->decoder->supports(null));

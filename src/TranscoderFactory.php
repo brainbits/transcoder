@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the brainbits transcoder package.
@@ -17,15 +17,17 @@ use Brainbits\Transcoder\Decoder\DecoderResolverInterface;
 use Brainbits\Transcoder\Encoder\EncoderResolverInterface;
 use Psr\Log\LoggerInterface;
 
+use function sprintf;
+
 /**
  * Transcoder factory.
  * Creates transcoder object.
  */
 class TranscoderFactory
 {
-    private $decoderResolver;
-    private $encoderResolver;
-    private $logger;
+    private DecoderResolverInterface $decoderResolver;
+    private EncoderResolverInterface $encoderResolver;
+    private LoggerInterface $logger;
 
     public function __construct(
         DecoderResolverInterface $decoderResolver,
@@ -39,7 +41,11 @@ class TranscoderFactory
 
     public function createTranscoder(?string $inputType = null, ?string $outputType = null): Transcoder
     {
-        $this->logger->debug("Creating transcoder with input type $inputType and output type $outputType");
+        $this->logger->debug(sprintf(
+            'Creating transcoder with input type %s and output type %s',
+            $inputType,
+            $outputType,
+        ));
 
         if ($inputType === $outputType) {
             $inputType = $outputType = null;
@@ -50,5 +56,4 @@ class TranscoderFactory
 
         return new Transcoder($decoder, $encoder);
     }
-
 }
