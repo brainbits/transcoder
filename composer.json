@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^7.4|^8.0",
-        "psr/log": "^1.0",
+        "psr/log": "^1|^2|^3",
         "symfony/process": ">=4.4"
     },
     "require-dev": {
@@ -28,14 +28,19 @@
         "phpspec/prophecy-phpunit": "^2.0",
         "squizlabs/php_codesniffer": "^3.6",
         "brainbits/phpcs-standard": "^5.0",
-        "phpstan/phpstan": "^0.12.99",
-        "brainbits/phpstan-rules": "^2.0"
+        "phpstan/phpstan": "^1.8.2",
+        "brainbits/phpstan-rules": "^3.0.0"
     },
     "autoload": {
         "psr-4": { "Brainbits\\Transcoder\\": "src/" }
     },
     "autoload-dev": {
         "psr-4": { "Brainbits\\Transcoder\\Tests\\": "tests/" }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "branch-alias": {
